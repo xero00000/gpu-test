@@ -1,0 +1,36 @@
+{
+  "recorded_utc": "2026-10-23T00:59:34.892528+00:00",
+  "status": "build_host_tests_and_installer_dry_run_passed",
+  "commands": [
+    "unlock-plan (read-only)",
+    "unlock-build (cached pinned inputs; no downloads or system install)",
+    "unlock-install --dry-run (read-only)",
+    "python3 -m unittest discover -s tests -v"
+  ],
+  "host_checks": {
+    "cli_regression_tests": 7,
+    "ampere_host_suites": 5,
+    "tu104_transaction": "Success, seven missing assets, ROM/chip/VRAM rejection, five post-start failure cases, and allocation failures passed."
+  },
+  "modules": [
+    {
+      "name": "gpu_unlock",
+      "sha256": "8a8de3d5e3ca54ba4add9659d6de536c0569754d733d7f25b25a7ece4252912b",
+      "kernel": "7.2.10-200.nobara.fc44.x86_64"
+    },
+    {
+      "name": "gpu_unlock_tu104",
+      "sha256": "71238fd23b12c4eb2df48b9c28bdb169f3f34a599aab0e5dd9a9f4cd83a1aaac",
+      "kernel": "7.2.10-200.nobara.fc44.x86_64"
+    }
+  ],
+  "generated_tu104_assets": "All seven module inputs match the previous hardware-trial assets byte for byte.",
+  "module_source_hashes_match_previously_tested_snapshot": true,
+  "packaged_installer_cold_boot_hardware_tested": false,
+  "system_install_performed": false,
+  "boot_settings_changed": false,
+  "build_notes": [
+    "BTF generation skipped: vmlinux/pahole unavailable; kernel module builds succeeded."
+  ],
+  "cli_sha256": "3ce7420a1367f54d4151cefe6bac5d081d2ecee5a28c01baf2d0e544f38669a5"
+}

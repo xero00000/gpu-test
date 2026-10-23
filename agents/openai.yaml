@@ -1,4 +1,4 @@
 interface:
-  display_name: "GPU Test"
-  short_description: "Benchmark GPUs and compare saved performance results"
-  default_prompt: "Use $gpu-test to identify my GPUs, run a short supported benchmark, and compare any matching saved results."
+  display_name: "GPU Test + Unlock"
+  short_description: "Benchmark GPUs and prepare qualified NVIDIA unlock trials"
+  default_prompt: "Use $gpu-test to identify my GPUs and benchmark them, or prepare an explicitly requested supported unlock trial."

@@ -1,6 +1,6 @@
 ---
 name: gpu-test
-description: Identify GPUs, run bounded compute or model inference benchmarks, and compare saved before/after results on NVIDIA, AMD, Intel, or Apple systems using supported installed runtimes. Use for GPU performance and basic numerical checks; testing alone does not include hardware unlocks or firmware changes.
+description: Identify GPUs, run bounded compute or model inference benchmarks, and compare saved before/after results on NVIDIA, AMD, Intel, or Apple systems using supported installed runtimes. Use for GPU performance and basic numerical checks; includes a separate explicit workflow for qualified Linux NVIDIA pre-driver unlock trials.
 ---
 
 # GPU Test
@@ -43,3 +43,12 @@ When the request names a model or launcher profile, benchmark that profile using
 For NVIDIA issue-rate checks, use an already reviewed read-only diagnostic if available; labels such as FMLA32/IMLA4 are driver capability reports, not throughput measurements. Never reuse a board-specific unlock module, signed payload, register sequence, or ROM on another GPU as part of a general test. A testing request does not authorize firmware writes, overclocking, boot changes, driver replacement, or unlock attempts.
 
 Report the GPU/model, measured workload, median plus range, correctness result, and any comparison limits; link the saved receipts. Include before/after percentages only with their matching assumptions.
+
+
+## Explicitly requested GPU unlocks
+
+Read [the unlock guide](references/unlock.md) before using `scripts/gpu_tool.py unlock-*`. It describes the PCI/ROM guards, qualified kernel/driver and dracut/BLS layout, local firmware generation, trial installation, verification, and removal. The same CLI forwards `inventory`, `bench`, and `compare` to the benchmark helper.
+
+Use unlock actions only when the user requests them. A request to package, publish, or explain the unlocker does not request changing the current machine's boot setup. A request to benchmark does not request an unlock. Preserve already installed acceleration and avoid shadowing its modules.
+
+For an authorized installation, select explicit PCI targets, retain a baseline, build the kit, inspect `unlock-install --dry-run`, then install within the user's authorized scope. The installer itself preserves normal/default boot. Explain the full-shutdown/manual-trial step; do not reboot automatically or load either module into a running GPU. After the user's cold boot, verify handoff and issue rates, then repeat the same benchmark. Do not generalize the TU104 ROM/board-specific module or present host tests as a fresh hardware qualification.

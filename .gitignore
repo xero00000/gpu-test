@@ -2,3 +2,15 @@ __pycache__/
 *.py[cod]
 .venv/
 runs/
+*.ko
+*.o
+*.mod
+*.mod.c
+*.cmd
+Module.symvers
+modules.order
+*.bin
+*.rom
+*.tar.xz
+*.tar.zst
+*.pkg.tar.zst

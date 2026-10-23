@@ -1,0 +1,79 @@
+{
+  "ampere_upstream": {
+    "url": "https://github.com/Zagitta/gpu-unlock",
+    "commit": "1799023e1d16dd1e58a7fc85823579fe93281e1a"
+  },
+  "turing_reference": {
+    "url": "https://github.com/xrip/cmp50hx-unlock",
+    "commit": "df2fe11b370bb52cc314576d0f2f5ae47ce908f8"
+  },
+  "tested_kernel": "7.2.10-200.nobara.fc44.x86_64",
+  "tested_driver": "595.104.02",
+  "turing_assets": {
+    "booter_load_tu102.bin": {
+      "bytes": 59224,
+      "sha256": "51507de61777cf46f3703a084cdfa896c21f6bc0c8af8f245bd09b2e9c49bf54"
+    },
+    "gsp_tu10x.bin": {
+      "bytes": 29352832,
+      "sha256": "73065619db9ec921d19fc4e519dd04d91a9199b525eaca9b257b89fb8c5ec52c"
+    },
+    "gsp_boot_tu102.bin": {
+      "bytes": 4096,
+      "sha256": "8765694cd38beaa4e2b8b1b83a31fb7aee6cb9d8b7c6bc7a86e6d931a3a056c2"
+    },
+    "gsp_boot_desc_tu102.bin": {
+      "bytes": 76,
+      "sha256": "9e7cca2cfdc5ce601b0adba39967850046108df6c2d23fff95578ca3f0ccbe01"
+    },
+    "gsp_bl_tu102.bin": {
+      "bytes": 768,
+      "sha256": "f21f1cfbb8fffa8067685314367fc4c50f3f84dd99eda7c19db4292d9269b9d9"
+    },
+    "board-rom-tu104.bin": {
+      "bytes": 1048576,
+      "sha256": "29d78dea1c11a6094f0297bdc8ed5afcfb959166fb51f884ade2c2e679d84878"
+    },
+    "v67-tu102-610.43.03.bin": {
+      "bytes": 64000,
+      "sha256": "de7288bcfb80c2d4b259a59e823c926ba0a9adcab594219cc6802c94257ce271"
+    }
+  },
+  "turing_rom_sha256": "29d78dea1c11a6094f0297bdc8ed5afcfb959166fb51f884ade2c2e679d84878",
+  "turing_source_pins": {
+    "g_bindata_ksec2GetBinArchiveBlUcode_TU102.c": "fc0bc277eeee754ea3071ae0fe8360a52193565bba7c07dcea60b00e8d56d9c8",
+    "g_bindata_kgspGetBinArchiveGspRmBoot_TU102.c": "19628e0b148a5437b351ce9ecd4a04405ec4eb66521e1c318ca6ef5d1a0c2efe"
+  },
+  "turing_payload": {
+    "filename": "v67-tu102-610.43.03.bin",
+    "url": "https://raw.githubusercontent.com/xrip/cmp50hx-unlock/df2fe11b370bb52cc314576d0f2f5ae47ce908f8/efi-unlock/blobs/v67_payload.bin",
+    "sha256": "de7288bcfb80c2d4b259a59e823c926ba0a9adcab594219cc6802c94257ce271"
+  },
+  "source_changes": "Ampere snapshot unchanged. TU104 is the previously hardware-tested board-specific port; only the offline test include and decoder import paths changed for packaging.",
+  "module_sources": {
+    "tu104/diagnostic.h": "1e5c397716b0e560d66d72e449186c521782ff4321034652709c370e00844128",
+    "tu104/gfw_eval.c": "5a36666290df66edc703611086a36adb148cdb953babf4529d114c9ef098e1b6",
+    "tu104/gfw_eval.h": "132644cd62a82ab5ba12c82b3dad0db0552be538eaddf97d926cdf316ae46e8e",
+    "tu104/layout_610.c": "bde52cb4c22a16bb345fef9caaa1c6f15c19c674d6985fde98e9d4c518aca375",
+    "tu104/layout_610.h": "afe45505f455f7af90a9d1920b416301bfb7e4ff1778f4f7e10186084618bb5e",
+    "tu104/main.c": "1a3418fc2f720484a7dbca460a744e8017e7024e3b3898ce54a154ec69829459",
+    "tu104/prep_610.c": "86fc724b8101c49c3bbfa6d20c2c1977c125953339152f99b72480a752270336",
+    "tu104/prep_610.h": "040bebabf3e80e3eaa8c366f0149c13d4c64b00ecc9982785987fca43f4384ed",
+    "tu104/unlock_610.c": "4ced5b7a0e03d890fb5cbeca2eb983d38377a47226ea6bf31acca8509325021c",
+    "tu104/unlock_610.h": "ea55c4f1fdd6e6d398aff2448f3ff6473993683d1b306db87a34f5c123f3f712",
+    "tu104/vbios_610.c": "c4f845982953a1779bbf136514de824199b32cd9cff5256a611df42924c66eb0",
+    "tu104/vbios_610.h": "54cb9f992a4a501a6e31cc5b647413f81069ad42f7c815d0de193a15576c38d3",
+    "ampere/kernel/gpu_unlock/diagnostic.h": "1e5c397716b0e560d66d72e449186c521782ff4321034652709c370e00844128",
+    "ampere/kernel/gpu_unlock/gfw_eval.c": "5a36666290df66edc703611086a36adb148cdb953babf4529d114c9ef098e1b6",
+    "ampere/kernel/gpu_unlock/gfw_eval.h": "8c79837e0b17252365c0b3d7f8edb0dc845a2c94bfd9c165c3b095783fffbe00",
+    "ampere/kernel/gpu_unlock/layout_610.c": "bde52cb4c22a16bb345fef9caaa1c6f15c19c674d6985fde98e9d4c518aca375",
+    "ampere/kernel/gpu_unlock/layout_610.h": "afe45505f455f7af90a9d1920b416301bfb7e4ff1778f4f7e10186084618bb5e",
+    "ampere/kernel/gpu_unlock/main.c": "389889fca08a3280351dc2bafd01f800941b8b09644545a8d5358d7f7c15adad",
+    "ampere/kernel/gpu_unlock/prep_610.c": "6ec01fd171f69f41712ec957a05b0bebf747c17d38ddb0b1ad432336ee7c09df",
+    "ampere/kernel/gpu_unlock/prep_610.h": "e17bb535f46d1e4f0f581c7e2655d624541224f90f32743f5285886bac614d5f",
+    "ampere/kernel/gpu_unlock/unlock_610.c": "32ca25f21e13384c7944e0186b70fb3ee555066b759f1e2d46f1b798260073a8",
+    "ampere/kernel/gpu_unlock/unlock_610.h": "ea55c4f1fdd6e6d398aff2448f3ff6473993683d1b306db87a34f5c123f3f712",
+    "ampere/kernel/gpu_unlock/vbios_610.c": "602a488ea200bbee67e90c600fda89cb6092d17709b314dbdf75b215f4a45253",
+    "ampere/kernel/gpu_unlock/vbios_610.h": "17990fa3a2464dbc1446ef5f349fe1486b39d9edf859ab1d8896857f65b3b7e0"
+  }
+}

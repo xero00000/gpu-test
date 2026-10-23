@@ -1,20 +1,24 @@
-# GPU Test
+# GPU Test + Unlock
 
 **Know what your GPU can actually do. Keep the numbers to prove it.**
 
-A reusable agent skill for discovering GPUs, running short compute benchmarks, checking numerical results, and comparing saved before/after measurements. It also guides model inference tests using your actual launcher profile.
+An agent skill and shared command interface for discovering GPUs, benchmarking them, building supported NVIDIA unlock kits, and measuring the before/after difference. Model inference tests use your actual launcher profile.
 
 - Hardware inventory and available-runtime detection.
 - Bounded tests, sequential device workers, and saved JSON receipts.
 - Seeded numerical checks plus validation of the timed matrix result.
 - Comparisons that expose changed drivers, power caps, precision, and workloads.
-- NVIDIA, AMD, Intel, and Apple backend routes when a compatible runtime is installed. Hardware validation so far covers the three NVIDIA cards below.
+- NVIDIA, AMD, Intel, and Apple benchmark routes when a compatible runtime is installed.
+- Bundled Ampere unlock source and the board-specific EVGA TU104 port, with pinned asset generation and offline tests.
+- A separate cold-boot trial installer, post-boot verification, and trial removal through the same tool.
+
+**Benchmarking covers available supported runtimes. Unlocking is limited to the qualified Linux/NVIDIA profiles below.**
 
 ## Real results: three cards, before and after
 
 **141.45 → 230.13 TFLOPS of summed FP16 tensor throughput — +62.7% (88.68 additional TFLOPS).**
 
-These are xero00000's actual measurements from 22 October 2026, comparing stock tensor-rate settings with separately applied pre-driver GPU modifications. GPU Test records performance; installing or running this skill does not unlock a GPU or produce these gains by itself.
+These are xero00000's actual measurements from 22 October 2026, comparing stock tensor-rate settings with separately applied pre-driver GPU modifications. Benchmark commands record performance. The included unlock commands explicitly build and prepare a separate boot trial; installing the skill alone does not unlock a GPU or guarantee these gains.
 
 The total is the **sum of three independently measured card medians**, with FP16 inputs and FP32 accumulation/output. It is not a measured simultaneous three-GPU workload or an ordinary FP32 shader-throughput figure.
 
@@ -56,6 +60,60 @@ The historical figures above came from the original **cuBLAS ctypes runners**. T
 
 Matrix throughput is distinct from model tokens per second and game frame rates. Multi-GPU inference depends on memory movement, expert caching, quantization, speculation, and the rest of the workload.
 
+## One command interface
+
+```bash
+python3 scripts/gpu_tool.py inventory --output runs/inventory.json
+python3 scripts/gpu_tool.py bench --output runs/before
+python3 scripts/gpu_tool.py --help
+```
+
+For a supported unlock, start with an explicit card selection. Replace the example address with your card's PCI address:
+
+```bash
+python3 scripts/gpu_tool.py unlock-plan --targets 0000:2b:00.0 --output runs/unlock-plan.json
+python3 scripts/gpu_tool.py unlock-build --plan runs/unlock-plan.json --output runs/unlock-kit --fetch
+```
+
+The build generates firmware locally from pinned, hash-checked inputs, compiles matching kernel modules, and runs the host tests. It downloads about 326 MB when inputs are absent. Python 3.11+, a C compiler, make, matching kernel headers, and either `zstd` or Python's zstd support are needed. No driver package is installed.
+
+Review the proposed trial using your existing **normal** BLS entry:
+
+```bash
+sudo python3 scripts/gpu_tool.py unlock-install --kit runs/unlock-kit --base-entry /boot/loader/entries/NORMAL.conf --dry-run
+# Use the same command without --dry-run to install the separate trial.
+```
+
+The installer preserves the normal boot entry and default, verifies the new initramfs members, and does not reboot or hot-load a module. Save work, shut down fully, and manually select the trial entry. Then:
+
+```bash
+sudo python3 scripts/gpu_tool.py unlock-verify --state /var/lib/gpu-test/gpu-test-trial/state.json --output runs/unlock-verification.json
+python3 scripts/gpu_tool.py bench --output runs/after
+python3 scripts/gpu_tool.py compare runs/before/summary.json runs/after/summary.json --output runs/comparison.json
+```
+
+Use the same benchmark options before and after. For trial removal:
+
+```bash
+sudo python3 scripts/gpu_tool.py unlock-remove --state /var/lib/gpu-test/gpu-test-trial/state.json
+```
+
+Removal checks ownership and hashes and preserves module/firmware files that another boot entry might use. A trial selected as the saved GRUB default or next boot is preserved until that selection is changed.
+
+### Qualified unlock profiles
+
+| Card/profile | Selection limits | Installation scope |
+| --- | --- | --- |
+| RTX 3080 LHR | PCI `10de:2216`, subsystem `19da:1612`; explicit PCI address | Ampere module |
+| RTX 3060 Ti LHR | PCI `10de:2489`, subsystem `196e:1389`; explicit PCI address | Ampere module |
+| EVGA RTX 2080 SUPER | PCI `10de:1e81`, subsystem `3842:3081`, address `0000:05:00.0`, exact captured ROM hash | Separate TU104 module |
+
+The boot installer currently accepts the tested **Linux x86-64, kernel 7.2.10-200.nobara.fc44.x86_64, NVIDIA 595.104.02, dracut + plain BLS** setup with Secure Boot disabled. Builds on another kernel do not establish qualification, and the installer refuses that environment. Existing unlock installations are preserved rather than shadowed. Other GPU families can still be benchmarked; they have no unlock path here.
+
+The TU104 path additionally requires `--board-rom /path/to/your/captured-board.rom` during `unlock-build`. The owner supplies it; the tool checks the qualified SHA-256 and does not capture or distribute a ROM. GPU flash writes and automatic resets/reboots are not part of this tool.
+
+The module sources were exercised in the earlier hardware trials behind the results below. The new package passed module builds, host transaction tests, and an installer dry run; **the newly packaged installer has not undergone a fresh cold-boot hardware trial**. Full support details, rollback behavior, source attribution, and firmware handling are in [the unlock guide](references/unlock.md). [Package validation receipt](results/unlock-package-validation.json).
+
 ## Install as an agent skill
 
 Clone into your Codex skills directory (the destination must not already exist):
@@ -76,7 +134,7 @@ $gpu-test benchmark my existing model launcher profile
 
 ## Run the helper directly
 
-Python 3.10+ is required. Inventory uses the standard library and available vendor tools. Compute tests additionally need an existing PyTorch build compatible with your GPU; the helper does not install packages or drivers.
+Python 3.10+ is required for the benchmark helper; unlock preparation requires Python 3.11+. Inventory uses the standard library and available vendor tools. Compute tests additionally need an existing PyTorch build compatible with your GPU; the helper does not install packages or drivers.
 
 ```bash
 # Run from this repository. Each output path must be new.
@@ -109,8 +167,8 @@ The published helper passed ten supported GPU/mode combinations on this machine,
 
 ## Scope
 
-This repository contains the testing skill, benchmark helper, documentation, and measured results. GPU unlock modules, firmware payloads, ROM images, and boot modifications are outside this repository. Ordinary testing leaves drivers, clocks, power caps, and boot settings unchanged.
+This repository contains the skill, shared CLI, benchmark helper, unlock module source, local asset generators, host tests, and measured results. Generated firmware, ROM images, compiled modules, and local kits are excluded from Git. Benchmark commands leave driver, clock, power-cap, and boot settings unchanged; explicit unlock installation creates only its separate trial and supporting files.
 
 ## License
 
-[MIT](LICENSE).
+Original benchmark/CLI code and documentation: [MIT](LICENSE). Bundled unlock sources and derived asset generators: GPL-2.0-only with retained notices; downloaded firmware has separate terms. See [third-party attribution](THIRD_PARTY.md).

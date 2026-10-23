@@ -1,0 +1,2 @@
+obj-m += gpu_unlock_tu104.o
+gpu_unlock_tu104-y := main.o gfw_eval.o prep_610.o layout_610.o vbios_610.o unlock_610.o
