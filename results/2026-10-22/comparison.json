@@ -1,0 +1,104 @@
+{
+  "date_utc": "2026-10-22",
+  "unit": "TFLOPS",
+  "protocol": "Historical cuBLAS GEMM: 8192 cubed operations, FP32 accumulation/output, three warmups, five samples of three GEMMs, CUDA event timing; dense FLOP convention 2*N^3.",
+  "context": "Stock versus separately applied pre-driver GPU tensor-rate modifications. The published skill benchmarks GPUs; it does not apply these modifications.",
+  "measurements": [
+    {
+      "card": "RTX 3080",
+      "power_limit_watts": 320.0,
+      "mode": "fp16_fp32_accumulate",
+      "before_tflops": 59.06072528401692,
+      "after_tflops": 94.0170048307356,
+      "gain_percent": 59.187013668757956
+    },
+    {
+      "card": "RTX 3080",
+      "power_limit_watts": 320.0,
+      "mode": "bf16_fp32_accumulate",
+      "before_tflops": 61.56618289844738,
+      "after_tflops": 108.92350907041393,
+      "gain_percent": 76.92100426313881
+    },
+    {
+      "card": "RTX 3080",
+      "power_limit_watts": 320.0,
+      "mode": "tf32_fp32_accumulate",
+      "before_tflops": 31.21796320521244,
+      "after_tflops": 57.93466711881688,
+      "gain_percent": 85.5811884266158
+    },
+    {
+      "card": "RTX 3060 Ti",
+      "power_limit_watts": 140.0,
+      "mode": "fp16_fp32_accumulate",
+      "before_tflops": 36.42972435030121,
+      "after_tflops": 63.96650778233641,
+      "gain_percent": 75.58877790906897
+    },
+    {
+      "card": "RTX 3060 Ti",
+      "power_limit_watts": 140.0,
+      "mode": "bf16_fp32_accumulate",
+      "before_tflops": 36.39473700082299,
+      "after_tflops": 61.88238222314508,
+      "gain_percent": 70.03112901116921
+    },
+    {
+      "card": "RTX 3060 Ti",
+      "power_limit_watts": 140.0,
+      "mode": "tf32_fp32_accumulate",
+      "before_tflops": 18.21053661160196,
+      "after_tflops": 32.35851614586155,
+      "gain_percent": 77.6911731708438
+    },
+    {
+      "card": "RTX 2080 SUPER",
+      "power_limit_watts": 160.0,
+      "mode": "fp16_fp32_accumulate",
+      "before_tflops": 45.9597293846752,
+      "after_tflops": 72.14451615580967,
+      "gain_percent": 56.973326696448126
+    }
+  ],
+  "totals": [
+    {
+      "mode": "fp16_fp32_accumulate",
+      "cards": [
+        "RTX 3080",
+        "RTX 3060 Ti",
+        "RTX 2080 SUPER"
+      ],
+      "before_tflops": 141.4501790189933,
+      "after_tflops": 230.12802876888168,
+      "additional_tflops": 88.67784974988837,
+      "gain_percent": 62.69193179174493,
+      "aggregation": "Sum of independently measured per-card medians; not a simultaneous multi-GPU benchmark."
+    },
+    {
+      "mode": "bf16_fp32_accumulate",
+      "cards": [
+        "RTX 3080",
+        "RTX 3060 Ti"
+      ],
+      "before_tflops": 97.96091989927038,
+      "after_tflops": 170.805891293559,
+      "additional_tflops": 72.84497139428862,
+      "gain_percent": 74.36125698818717,
+      "aggregation": "Sum of independently measured per-card medians; not a simultaneous multi-GPU benchmark."
+    },
+    {
+      "mode": "tf32_fp32_accumulate",
+      "cards": [
+        "RTX 3080",
+        "RTX 3060 Ti"
+      ],
+      "before_tflops": 49.428499816814394,
+      "after_tflops": 90.29318326467843,
+      "additional_tflops": 40.86468344786404,
+      "gain_percent": 82.6743348459118,
+      "aggregation": "Sum of independently measured per-card medians; not a simultaneous multi-GPU benchmark."
+    }
+  ],
+  "publication": "Six projected receipts retain measured timings and output hashes; machine paths, boot arguments, UUIDs and PCI addresses omitted. Original receipt SHA-256 values are retained."
+}

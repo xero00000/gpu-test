@@ -1,0 +1,22 @@
+{
+  "script_sha256": "5d64193c7280baaecc30de737897f159a07ca5274f5c42cf48971abef97d48f0",
+  "tested_hardware": [
+    "NVIDIA GeForce RTX 3060 Ti",
+    "NVIDIA GeForce RTX 2080 SUPER",
+    "NVIDIA GeForce RTX 3080"
+  ],
+  "passing_modes": 10,
+  "checks": [
+    "random numerical checks",
+    "timed constant-matrix checks",
+    "unsupported Turing modes skipped",
+    "unavailable MPS backend reports no CPU fallback",
+    "same-condition comparison",
+    "changed protocol and power cap flagged historical",
+    "percentage formula",
+    "original receipts preserved",
+    "existing output rejected"
+  ],
+  "other_backends": "AMD, Intel and Apple routes present but not hardware-tested here",
+  "protocol_note": "Current PyTorch helper validation; separate from the historical cuBLAS before/after study."
+}

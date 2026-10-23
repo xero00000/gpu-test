@@ -1,0 +1,40 @@
+{
+  "recorded_utc": "2026-10-22T02:36:31.434466+00:00",
+  "kernel": "7.2.10-200.nobara.fc44.x86_64",
+  "cublas_version": 120803,
+  "benchmark_sha256": "b8717e3dd538b65ec6f82d61f5d76b7e7f83c426a2dbebdb275cdf608140535d",
+  "limitation": "Matrix math only; constant-matrix check, no model accuracy claim.",
+  "results": [
+    {
+      "mode": "fp16_fp32_accumulate",
+      "size": 8192,
+      "milliseconds": [
+        24.07891082763672,
+        23.923370361328125,
+        23.804585774739582,
+        23.87738545735677,
+        24.093950907389324
+      ],
+      "median_tflops": 45.9597293846752,
+      "constant_matrix_check_passed": true,
+      "output_sha256": "ba74112388684559038dded5835b1d8dc0183bf60160b1a3a40517d9f02147ef"
+    }
+  ],
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 2080 SUPER",
+    "driver_version": "595.104.02",
+    "power_limit_watts": 160.0,
+    "temperature_c": 40,
+    "sm_clock_mhz": 1965
+  },
+  "publication": {
+    "format": "Public projection of original local benchmark receipt",
+    "original_sha256": "8b0335ff9524917d1ced2fc781a3fe6b308ee389dfa42d1ee8f293eeb0c0c1ac",
+    "omitted_fields": [
+      "gpu_uuid",
+      "command_line",
+      "library_directory",
+      "gpu_state (replaced with structured GPU fields; UUID and PCI address omitted)"
+    ]
+  }
+}

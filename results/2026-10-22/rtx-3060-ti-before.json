@@ -1,0 +1,68 @@
+{
+  "recorded_utc": "2026-10-22T02:36:19.365614+00:00",
+  "kernel": "7.2.10-200.nobara.fc44.x86_64",
+  "cublas_version": 120803,
+  "benchmark_sha256": "a81125647c9f605f4ff00c7596750907f9c6575bf1b5334903e544fcc9c08883",
+  "limitation": "Matrix math only; constant-matrix check, no model accuracy claim.",
+  "results": [
+    {
+      "mode": "fp16_fp32_accumulate",
+      "size": 8192,
+      "milliseconds": [
+        30.07317352294922,
+        30.235989888509113,
+        30.174550374348957,
+        30.18956756591797,
+        30.181716918945312
+      ],
+      "median_tflops": 36.42972435030121,
+      "constant_matrix_check_passed": true,
+      "output_sha256": "ba74112388684559038dded5835b1d8dc0183bf60160b1a3a40517d9f02147ef"
+    },
+    {
+      "mode": "bf16_fp32_accumulate",
+      "size": 8192,
+      "milliseconds": [
+        30.619649251302082,
+        30.132225036621094,
+        30.04552459716797,
+        30.544212341308594,
+        30.210731506347656
+      ],
+      "median_tflops": 36.39473700082299,
+      "constant_matrix_check_passed": true,
+      "output_sha256": "ba74112388684559038dded5835b1d8dc0183bf60160b1a3a40517d9f02147ef"
+    },
+    {
+      "mode": "tf32_fp32_accumulate",
+      "size": 8192,
+      "milliseconds": [
+        60.37777201334635,
+        59.87157185872396,
+        60.36548360188802,
+        60.623189290364586,
+        60.94745381673177
+      ],
+      "median_tflops": 18.21053661160196,
+      "constant_matrix_check_passed": true,
+      "output_sha256": "ba74112388684559038dded5835b1d8dc0183bf60160b1a3a40517d9f02147ef"
+    }
+  ],
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 3060 Ti",
+    "driver_version": "595.104.02",
+    "power_limit_watts": 140.0,
+    "temperature_c": 53,
+    "sm_clock_mhz": 1980
+  },
+  "publication": {
+    "format": "Public projection of original local benchmark receipt",
+    "original_sha256": "379a9e0620806b5258d381649bcbecef41b9fd01e9c5791871b2179993ca8655",
+    "omitted_fields": [
+      "gpu_uuid",
+      "command_line",
+      "library_directory",
+      "gpu_state (replaced with structured GPU fields; UUID and PCI address omitted)"
+    ]
+  }
+}

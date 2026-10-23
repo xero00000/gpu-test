@@ -1,0 +1,4 @@
+interface:
+  display_name: "GPU Test"
+  short_description: "Benchmark GPUs and compare saved performance results"
+  default_prompt: "Use $gpu-test to identify my GPUs, run a short supported benchmark, and compare any matching saved results."

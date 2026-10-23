@@ -1,0 +1,34 @@
+{
+  "files": [
+    {
+      "file": "results/2026-10-22/rtx-3080-before.json",
+      "sha256": "d5e2ce3cf4237861198c2e581889cc25dc5f0fc97bc0271b8af4a684c3de3290",
+      "original_sha256": "b167a2b0ae4c69fe665ccfe1801eb2d59919a142f1a203ff1d736f8fe4ba72de"
+    },
+    {
+      "file": "results/2026-10-22/rtx-3080-after.json",
+      "sha256": "11b006a356812a6be8b65746e8df159da071d018260478e1b6945741e1343788",
+      "original_sha256": "37249e879ff1cbb4fdd57f0cc3649cdcbd84e2bdd176c4a69828e8889ff264d0"
+    },
+    {
+      "file": "results/2026-10-22/rtx-3060-ti-before.json",
+      "sha256": "88fb9a845cf59af2efb12aa3f1a97ef4be32cb4ae23eb278091b6409af1f7301",
+      "original_sha256": "379a9e0620806b5258d381649bcbecef41b9fd01e9c5791871b2179993ca8655"
+    },
+    {
+      "file": "results/2026-10-22/rtx-3060-ti-after.json",
+      "sha256": "af92ae2d29f71511b44d0c0f211340395d0c1e44c0c8e8999d53fd617348eb18",
+      "original_sha256": "84217d4028a31ee2350f408e7bcb5fa320336f647984d3686d8b8ee7e6988ff6"
+    },
+    {
+      "file": "results/2026-10-22/rtx-2080-super-before.json",
+      "sha256": "9b19bfa1e03129725ef2c703ef8503a7476539abed3f073722aa14d800e32bd9",
+      "original_sha256": "8b0335ff9524917d1ced2fc781a3fe6b308ee389dfa42d1ee8f293eeb0c0c1ac"
+    },
+    {
+      "file": "results/2026-10-22/rtx-2080-super-after.json",
+      "sha256": "160ecab5c65eccb6a72ee6433033259719b49cbc9b9d618855d9b0ab715167e5",
+      "original_sha256": "6ce046ab39935fa8675cee5ff4d83608047f0250d4e9bea110d740f2e94b59e9"
+    }
+  ]
+}
