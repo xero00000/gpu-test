@@ -21,3 +21,11 @@ Firmware is separate from the open module source. The build recipes fetch pinned
 This repository does not redistribute GPU firmware binaries, patched Booter images, compiled unlock modules, or an owner's ROM. It makes no new firmware redistribution grant. The full board ROM is supplied locally by its owner and must match the qualified hash.
 
 [`unlock/provenance.json`](unlock/provenance.json) records exact revisions, module source hashes, derived asset hashes, and the qualified environment.
+
+## NVIDIA 595 Ampere P2P backport
+
+`unlock/p2p/ampere-p2p-595.104.02.patch` adapts the BAR1 work in [aikitoria/open-gpu-kernel-modules, commit e698b05](https://github.com/aikitoria/open-gpu-kernel-modules/commit/e698b05bbe31bcff38e2ba41791dc0e5290e577c) to NVIDIA 595.104.02. The upstream commit credits geohot, nimlgen, valdemardi, ducphuc and xycjscs as co-authors. This backport retains the NVIDIA source's license scope, adds exact-board guards, uses the 595 HAL indexes, and adjusts allocation/mapping cleanup for that version. The early-identity guard and its host test are original MIT code. The upstream [COPYING notice](unlock/licenses/NVIDIA-OPEN-COPYING.txt) is retained; individual NVIDIA source files are generally MIT, and the resulting linked kernel module is dual MIT/GPLv2 as described there. This does not relicense other bundled unlock sources.
+
+The userspace recipe was informed by the [615 patch script at c8bff540](https://github.com/aikitoria/open-gpu-kernel-modules/blob/c8bff5400e2fc8bda4cb9a141fb596aad607a35f/patch-libcuda-p2p.py). That script is not copied into this repository and does not apply unchanged to the tested 595 binary. The original MIT builder here uses the reviewed 595 offsets, checks original/candidate hashes and preserves all five branch destinations. NVIDIA's proprietary libcuda is supplied locally by its owner; neither the original nor the modified binary is redistributed or covered by this repository's MIT license.
+
+`unlock/p2p/rm_bar1_probe.c` includes the existing GPL-2.0-only RM helper and retains that license. The CUDA copy/remote-kernel probes, Python preparation/launch tools, host tests and new documentation are original MIT work. Exact upstream revisions, patch/file hashes and userspace branch changes are recorded in [`unlock/p2p/provenance.json`](unlock/p2p/provenance.json).

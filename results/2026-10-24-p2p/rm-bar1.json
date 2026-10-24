@@ -1,0 +1,98 @@
+[
+  {
+    "type": "p2p_caps",
+    "gpus": [
+      "RTX 3060 Ti",
+      "RTX 2080 SUPER"
+    ],
+    "os_error": 0,
+    "rm_status": 0,
+    "flags": 71,
+    "bar1_supported": false,
+    "status": [
+      0,
+      0,
+      5,
+      5,
+      0,
+      5,
+      0,
+      5,
+      5
+    ]
+  },
+  {
+    "type": "p2p_caps",
+    "gpus": [
+      "RTX 3060 Ti",
+      "RTX 3080"
+    ],
+    "os_error": 0,
+    "rm_status": 0,
+    "flags": 8259,
+    "bar1_supported": true,
+    "status": [
+      0,
+      0,
+      5,
+      5,
+      5,
+      5,
+      0,
+      5,
+      0
+    ]
+  },
+  {
+    "type": "p2p_caps",
+    "gpus": [
+      "RTX 2080 SUPER",
+      "RTX 3080"
+    ],
+    "os_error": 0,
+    "rm_status": 0,
+    "flags": 71,
+    "bar1_supported": false,
+    "status": [
+      0,
+      0,
+      5,
+      5,
+      0,
+      5,
+      0,
+      5,
+      5
+    ]
+  },
+  {
+    "type": "static_bar1",
+    "os_error": 0,
+    "rm_status": 0,
+    "enabled": true,
+    "write_combined": true,
+    "start": 0,
+    "size": 8256487424,
+    "gpu": "RTX 3060 Ti"
+  },
+  {
+    "type": "static_bar1",
+    "os_error": 0,
+    "rm_status": 0,
+    "enabled": false,
+    "write_combined": true,
+    "start": 0,
+    "size": 0,
+    "gpu": "RTX 2080 SUPER"
+  },
+  {
+    "type": "static_bar1",
+    "os_error": 0,
+    "rm_status": 0,
+    "enabled": true,
+    "write_combined": true,
+    "start": 0,
+    "size": 10399776768,
+    "gpu": "RTX 3080"
+  }
+]

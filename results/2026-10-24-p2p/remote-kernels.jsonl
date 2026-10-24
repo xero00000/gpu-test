@@ -1,0 +1,6 @@
+{"type":"capability","accessor":"RTX 3060 Ti","owner":"RTX 3080","can_access":1}
+{"type":"capability","accessor":"RTX 3080","owner":"RTX 3060 Ti","can_access":1}
+{"type":"kernel_check","accessor":"RTX 3060 Ti","operation":"remote_read","owner":"RTX 3080","bytes":262144,"correct":true,"source_unchanged":true}
+{"type":"kernel_check","accessor":"RTX 3060 Ti","operation":"remote_write","owner":"RTX 3080","bytes":262144,"correct":true,"source_unchanged":true}
+{"type":"kernel_check","accessor":"RTX 3080","operation":"remote_read","owner":"RTX 3060 Ti","bytes":262144,"correct":true,"source_unchanged":true}
+{"type":"kernel_check","accessor":"RTX 3080","operation":"remote_write","owner":"RTX 3060 Ti","bytes":262144,"correct":true,"source_unchanged":true}

@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "kernel": "7.2.10-200.nobara.fc44.x86_64",
+  "driver": "595.104.02",
+  "kernel_upstream": {
+    "url": "https://github.com/aikitoria/open-gpu-kernel-modules",
+    "commit": "e698b05bbe31bcff38e2ba41791dc0e5290e577c"
+  },
+  "userspace_reference": {
+    "url": "https://github.com/aikitoria/open-gpu-kernel-modules/blob/c8bff5400e2fc8bda4cb9a141fb596aad607a35f/patch-libcuda-p2p.py",
+    "commit": "c8bff5400e2fc8bda4cb9a141fb596aad607a35f",
+    "note": "Reference targets 615; this adaptation is specific to the observed 595 binary."
+  },
+  "patch_sha256": "698b8ff32a4e6c270dd90aed0f3885251491f1cbff597ea7c5e57b358a8aa0ba",
+  "source_files": {
+    "src/nvidia/generated/g_kern_bus_nvoc.c": {
+      "before": "a033f0a047a96a9dc7a1476c22b6c2f5f9c7a45f3adeb6bebf83b478aef9fc26",
+      "after": "b015e933c7938dc444e8f0e4c3a5c58d5b762bc375d018f39f44e4139ece380a"
+    },
+    "src/nvidia/generated/g_virt_mem_allocator_nvoc.c": {
+      "before": "98264670bbb339132b50d6e27dd175ed44bef9b6a1296df43403da28a4f36db1",
+      "after": "235f40d8c59223a566927868c1e7828bbf98c5b7833029310344fc78a57e384e"
+    },
+    "src/nvidia/inc/kernel/gpu/bif/p2p_trial.h": {
+      "before": null,
+      "after": "b1a34a0d76ff6c7c36290a421d38a588e21b3c321da06efdd8841a29916a4fa3"
+    },
+    "src/nvidia/inc/kernel/rmapi/mapping_list.h": {
+      "before": "29e368b650a6068e5de36b6a05d49edee95508bdd126b6fe4c5919a98835b1e2",
+      "after": "49ef46e42890734a5d2728ce38ad9bccffe3e3495542b11bc03227ce8be3ae18"
+    },
+    "src/nvidia/src/kernel/gpu/bif/kernel_bif.c": {
+      "before": "d04507bd87675b6c870eedcbf5a2029ee7589bd86cced159a4214ed6b4231ff5",
+      "after": "7e1e8af8997b3446580565b168e8d707492d674930ba3c7b6589b5d3d860e99f"
+    },
+    "src/nvidia/src/kernel/gpu/bus/arch/hopper/kern_bus_gh100.c": {
+      "before": "cb0c82c8a2aa3f7fb186cf078cc542eb7b15a684b27754aef460cb888383c3fb",
+      "after": "7e1393373aaebd64949fea4e1756624ae424229e02d86a7c5f752ecd35a18e03"
+    },
+    "src/nvidia/src/kernel/gpu/bus/arch/maxwell/kern_bus_gm107.c": {
+      "before": "796d5963b539ec7c9a4e028559fa5ec7625b80ea6c86b8c79f2374cc6e8e4393",
+      "after": "50451fc1e7c3d45210714d36a0e5cbdb01e7d601f58fd90a0a12f617505a304f"
+    },
+    "src/nvidia/src/kernel/gpu/bus/arch/maxwell/kern_bus_gm200.c": {
+      "before": "fd0101afd0bc931776d59be8630873f72a9308910b9ce09eb19c37b80caec712",
+      "after": "74399d37fe63227e2fdcf2525705cf1fb6c41019195c971d4975b6289baba384"
+    },
+    "src/nvidia/src/kernel/gpu/bus/arch/pascal/kern_bus_gp100.c": {
+      "before": "e34e90e32f01e0b8ea46c5ffd72d8087675f7ff963db1347ba00bfa1585aa844",
+      "after": "5ae2f1d25a0a583227a26da74660948727f33640b3644ec580d590cb27b24a8a"
+    },
+    "src/nvidia/src/kernel/gpu/bus/arch/turing/kern_bus_tu102.c": {
+      "before": "7fd49bd239de161d7003089d5f555bf1579601e72fc056e7e9025b443f09d391",
+      "after": "f44397fe0aef14efb24015c8495350c524e953cc74879f9ce7384ecbe0ff2af6"
+    },
+    "src/nvidia/src/kernel/gpu/mem_mgr/arch/hopper/virt_mem_allocator_gh100.c": {
+      "before": "0aeb1d527e4d4f61626707c2918f922007e07fd2eceba4d4747b9e0fc57cac32",
+      "after": "ac2db0415604cd9f7e7e621f44c158b79b53bfe4514f812d2bca4ce691c74898"
+    },
+    "src/nvidia/src/kernel/rmapi/nv_gpu_ops.c": {
+      "before": "222b8b67e5b69f32dedb544d0292f0920fa47dbbf7cff73488204802b50dacbe",
+      "after": "ca8be0899d8c3c201bb18500358a40c0acf8517560171cadc21a4583d337d778"
+    }
+  },
+  "libcuda": {
+    "source_sha256": "6fad8879f66fdece9570849fb86f9022e8023ddd15f5585177e3a0da7558114c",
+    "candidate_sha256": "0ee57db9848eb3389587866a4b2bba63ae86a9535cc3ffb005885bf882d1766d",
+    "changes": [
+      {
+        "name": "can_access",
+        "offset": 2786774,
+        "before": "7444",
+        "after": "eb44",
+        "target": 2786844
+      },
+      {
+        "name": "compatibility",
+        "offset": 2787025,
+        "before": "7445",
+        "after": "eb45",
+        "target": 2787096
+      },
+      {
+        "name": "context_peer_gate",
+        "offset": 2948899,
+        "before": "7441",
+        "after": "eb41",
+        "target": 2948966
+      },
+      {
+        "name": "peer_setup",
+        "offset": 4435388,
+        "before": "746a",
+        "after": "eb6a",
+        "target": 4435496
+      },
+      {
+        "name": "peer_selection",
+        "offset": 4473127,
+        "before": "0f8487000000",
+        "after": "e98800000090",
+        "target": 4473268
+      }
+    ]
+  },
+  "qualification": "Only the documented three-card case and exact board IDs; no generic boot/default installer is provided. Source preparation and binary copying happen in new private directories only."
+}

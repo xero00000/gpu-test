@@ -52,3 +52,9 @@ Read [the unlock guide](references/unlock.md) before using `scripts/gpu_tool.py 
 Use unlock actions only when the user requests them. A request to package, publish, or explain the unlocker does not request changing the current machine's boot setup. A request to benchmark does not request an unlock. Preserve already installed acceleration and avoid shadowing its modules.
 
 For an authorized installation, select explicit PCI targets, retain a baseline, build the kit, inspect `unlock-install --dry-run`, then install within the user's authorized scope. The installer itself preserves normal/default boot. Explain the full-shutdown/manual-trial step; do not reboot automatically or load either module into a running GPU. After the user's cold boot, verify handoff and issue rates, then repeat the same benchmark. Do not generalize the TU104 ROM/board-specific module or present host tests as a fresh hardware qualification.
+
+## Explicitly requested Ampere P2P work
+
+Read [the P2P guide](references/p2p.md) before using `p2p-prepare-source`, `p2p-patch-libcuda`, or `p2p-run` through `scripts/gpu_tool.py`. These commands preserve installed source/libraries and boot defaults. The public package provides preparation and guarded process launch, not a generic kernel installer or default-profile promotion tool.
+
+Preserve existing tensor modules, firmware and unrelated driver patches. Refuse overlapping target edits instead of discarding them. Keep the private libcuda restricted to the exact qualified Ampere pair; the RTX 2080 SUPER is not qualified for this P2P path. Never use NVML topology labels as proof of native BAR1 access. Require matched loaded module IDs and native RM capability before process-local mappings; verify direct remote read/write data and unchanged sources before measuring throughput. The published copy gains did not yield a consistent ESE model-speed gain. Publishing this source does not authorize changing a machine's boot profile.

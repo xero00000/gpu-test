@@ -1,0 +1,23 @@
+{
+  "recorded_utc": "2026-10-24T22:24:59.536501+00:00",
+  "kernel": "7.2.10-200.nobara.fc44.x86_64",
+  "driver": "595.104.02",
+  "hardware_cold_boot_tested": true,
+  "all_existing_source_changes_retained": 37,
+  "original_unlock_assets_retained": 14,
+  "original_tensor_rates_full_all_three": true,
+  "original_tensor_math_checks_passed": 7,
+  "direct_peer_kernel_checks_passed": 4,
+  "copy_checks_passed_per_library": 24,
+  "no_captured_nvidia_or_pcie_errors": true,
+  "p2p_scope": [
+    "RTX 3060 Ti",
+    "RTX 3080"
+  ],
+  "turing_p2p_qualified": false,
+  "nvml_topology_alone_is_not_proof": true,
+  "system_libcuda_modified": false,
+  "public_packaged_boot_installer_provided": false,
+  "public_package_new_cold_boot_performed": false,
+  "limitations": "One qualified machine, short bounded checks with desktop active; no sustained stress or general memory reliability certification. Public source preparation does not install, reboot, or promote a default."
+}

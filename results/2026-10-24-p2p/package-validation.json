@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-10-24T22:45:56.019235+00:00",
+  "status": "host_preparation_compilation_and_read_only_launch_passed",
+  "host_tests": 19,
+  "actual_source_preparation": {
+    "input_files": 3806,
+    "unrelated_files_preserved": 3795,
+    "original_unchanged": true,
+    "all_twelve_targets_match_tested_postimages": true
+  },
+  "private_candidate_sha256": "0ee57db9848eb3389587866a4b2bba63ae86a9535cc3ffb005885bf882d1766d",
+  "compiled_probes": [
+    "rm_bar1_probe.c",
+    "peer_kernel_probe.cpp",
+    "copy_probe.cpp"
+  ],
+  "packaged_launcher_read_only_check": {
+    "status": "passed",
+    "visible_gpus": 2,
+    "peers": [
+      [
+        0,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        1
+      ]
+    ],
+    "private_library_selected": true
+  },
+  "packaged_tools_fresh_kernel_build": false,
+  "packaged_tools_fresh_cold_boot": false,
+  "packaging_changed_boot_settings": false,
+  "packaging_installed_driver_or_global_library": false,
+  "package_sha256": {
+    "scripts/gpu_p2p.py": "a1c4638e9a418831f7704852d89a4b4c7a1f50dc279d57f11088821b18788591",
+    "scripts/gpu_tool.py": "2255fe9d4239eec16b6b22764f5550f2627c9cab66e8561c0f55caf76b94b60d",
+    "unlock/p2p/ampere-p2p-595.104.02.patch": "698b8ff32a4e6c270dd90aed0f3885251491f1cbff597ea7c5e57b358a8aa0ba"
+  }
+}
