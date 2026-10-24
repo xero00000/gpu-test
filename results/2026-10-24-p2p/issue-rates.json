@@ -1,0 +1,324 @@
+[
+  {
+    "gpu": "RTX 3060 Ti",
+    "controls": {
+      "v1": {
+        "command": "0x20801230",
+        "os_error": 0,
+        "rm_status": "0x00000000",
+        "values": [
+          {
+            "name": "IMLA0",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "FMLA16",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "DP",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "FMLA32",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "FFMA",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA1",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA2",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA3",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA4",
+            "raw": 0,
+            "speed": "full"
+          }
+        ]
+      },
+      "v2": {
+        "command": "0x2080123c",
+        "os_error": 0,
+        "rm_status": "0x00000000",
+        "values": [
+          {
+            "index": 0,
+            "name": "FMLA16",
+            "raw": 0
+          },
+          {
+            "index": 1,
+            "name": "DP",
+            "raw": 0
+          },
+          {
+            "index": 2,
+            "name": "FMLA32",
+            "raw": 0
+          },
+          {
+            "index": 3,
+            "name": "FFMA",
+            "raw": 0
+          },
+          {
+            "index": 4,
+            "name": "IMLA0",
+            "raw": 0
+          },
+          {
+            "index": 5,
+            "name": "IMLA1",
+            "raw": 0
+          },
+          {
+            "index": 6,
+            "name": "IMLA2",
+            "raw": 0
+          },
+          {
+            "index": 7,
+            "name": "IMLA3",
+            "raw": 0
+          },
+          {
+            "index": 8,
+            "name": "IMLA4",
+            "raw": 0
+          }
+        ]
+      }
+    }
+  },
+  {
+    "gpu": "RTX 2080 SUPER",
+    "controls": {
+      "v1": {
+        "command": "0x20801230",
+        "os_error": 0,
+        "rm_status": "0x00000000",
+        "values": [
+          {
+            "name": "IMLA0",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "FMLA16",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "DP",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "FMLA32",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "FFMA",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA1",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA2",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA3",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA4",
+            "raw": 0,
+            "speed": "full"
+          }
+        ]
+      },
+      "v2": {
+        "command": "0x2080123c",
+        "os_error": 0,
+        "rm_status": "0x00000000",
+        "values": [
+          {
+            "index": 0,
+            "name": "FMLA16",
+            "raw": 0
+          },
+          {
+            "index": 2,
+            "name": "FMLA32",
+            "raw": 0
+          },
+          {
+            "index": 3,
+            "name": "FFMA",
+            "raw": 0
+          },
+          {
+            "index": 4,
+            "name": "IMLA0",
+            "raw": 0
+          },
+          {
+            "index": 5,
+            "name": "IMLA1",
+            "raw": 0
+          },
+          {
+            "index": 6,
+            "name": "IMLA2",
+            "raw": 0
+          },
+          {
+            "index": 7,
+            "name": "IMLA3",
+            "raw": 0
+          },
+          {
+            "index": 8,
+            "name": "IMLA4",
+            "raw": 0
+          }
+        ]
+      }
+    }
+  },
+  {
+    "gpu": "RTX 3080",
+    "controls": {
+      "v1": {
+        "command": "0x20801230",
+        "os_error": 0,
+        "rm_status": "0x00000000",
+        "values": [
+          {
+            "name": "IMLA0",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "FMLA16",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "DP",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "FMLA32",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "FFMA",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA1",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA2",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA3",
+            "raw": 0,
+            "speed": "full"
+          },
+          {
+            "name": "IMLA4",
+            "raw": 0,
+            "speed": "full"
+          }
+        ]
+      },
+      "v2": {
+        "command": "0x2080123c",
+        "os_error": 0,
+        "rm_status": "0x00000000",
+        "values": [
+          {
+            "index": 0,
+            "name": "FMLA16",
+            "raw": 0
+          },
+          {
+            "index": 1,
+            "name": "DP",
+            "raw": 0
+          },
+          {
+            "index": 2,
+            "name": "FMLA32",
+            "raw": 0
+          },
+          {
+            "index": 3,
+            "name": "FFMA",
+            "raw": 0
+          },
+          {
+            "index": 4,
+            "name": "IMLA0",
+            "raw": 0
+          },
+          {
+            "index": 5,
+            "name": "IMLA1",
+            "raw": 0
+          },
+          {
+            "index": 6,
+            "name": "IMLA2",
+            "raw": 0
+          },
+          {
+            "index": 7,
+            "name": "IMLA3",
+            "raw": 0
+          },
+          {
+            "index": 8,
+            "name": "IMLA4",
+            "raw": 0
+          }
+        ]
+      }
+    }
+  }
+]

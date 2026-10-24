@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "redaction": "Published allowlisted measurements omit local paths, hostnames, GPU UUIDs, filesystem UUIDs and PCI topology identifiers. GPU roles are named by model. Source-code qualification still documents the tested PCI addresses.",
+  "original_receipt_sha256": {
+    "ampere-system-library-copy.jsonl": "58765564cf0746c76049cc5d701e343405d874a296f6792ea26c330c5b4b36b2",
+    "ampere-private-library-copy.jsonl": "3a8fb000a0f7a42b3a2156de6a44985f0d9f0d44187e0a96645c15228047369d",
+    "direct-peer-kernels.jsonl": "3dcf7710f92072934a5c0774349c416acf7b93b5ecd95d3de76cf7fe69d65a3c",
+    "copy-comparison.json": "b5ac8c2251c45cd0a77d2371b49863223b9f6e7427a50d29e23e7df1e022cc5b",
+    "ese-ab/summary.json": "bcdca87840b1dd46692dac688bc9a06e68fbb8679ef06d3718074eaf15800636",
+    "first-trial/tensor-3060ti.json": "565ff6e61384e8f1c949167f28952deed4059af9b5c745b429d0b495113f5898",
+    "r2/tensor-3060ti.json": "bfe9215e65e8355317ea5d7d24775d10f078b46b83379e3953daed019ad4513f",
+    "first-trial/tensor-2080super.json": "589f1c84460964b3cebb9a7f11b9df89172ab232fd3b5289bd48aa5bceb9f4a7",
+    "r2/tensor-2080super.json": "d3b2debfad2755d00034a5cf2e6fd5bd8d4e66df76ab7c24aae728f3386c4a07",
+    "first-trial/tensor-3080.json": "ff06c6b7e905b614840edbe61c39223fdf5e9ce3757dd765f65aa32eb65aa9c8",
+    "r2/tensor-3080.json": "cf76b1f02d09fd5d16bf7b076e19e376aa5c9774ca4725acc6762c20518edb0f",
+    "rm-bar1.jsonl": "8b966526c7a71f271b945c391500dad4374a3c9f2f872ed1adc4faba30748d10",
+    "issue-rate-0.stdout": "b409bfdde91ab0edad6ca58b16c6da4fc737b4fffdd6dd7863a06e41e33941c1",
+    "issue-rate-1.stdout": "535c5ba93e6805ad063208b08f4b57cc70ba2a0d25edd938ee72bf7978a43054",
+    "issue-rate-2.stdout": "cb90aed95016fcd18cb21412127f61ffe50f44b2942be7884773e42c105905b9"
+  },
+  "published_sha256": {
+    "copies-installed.jsonl": "05992bd933dd55a8d940a7085e638ff7d1636efdb4dd8dad6fef080cf7737bd4",
+    "copies-private.jsonl": "3949202858610a3d84a508dcd5f2dc4747a74ece88375037231fed4cdc7053f7",
+    "copy-comparison.json": "8cc24343d0bcaf5bfedd76ec754b956f0cd74d12c3c19281a70dab62c7680cdb",
+    "ese-comparison.json": "e5f50acbd39d7c2a6f8be9ac6bc8bccd9c15dd1c4d9782984b6095f25ee72dd9",
+    "issue-rates.json": "dd4198746667272510d950b2a2e84ed438c55afb43faeb7868ccbb14127a781e",
+    "package-validation.json": "8b0b3174722a94cded6dae445cb7e4df2a2bfd692fb36bf0306b6ace8e0ccb4c",
+    "remote-kernels.jsonl": "664746af128616ef31f82932403e283a877f6ad19e3a78746b1e962c30773b3d",
+    "rm-bar1.json": "d64cd7004fe493c2fa776ded4412cde4de3c604a49f97973f73af435862f7651",
+    "tensor-checks.json": "7d6d05e33657191bb75f00dd04ac0caf0fcd3bb2f2f7cb61ab094b6a38e9719f",
+    "verification.json": "544af07be142ca7b3c391e18262ef2e5e30c767095a50c62a81146b0ad01047d"
+  }
+}

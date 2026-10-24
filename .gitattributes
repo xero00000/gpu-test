@@ -1,0 +1,3 @@
+# Keep the tested unified-diff context and upstream license byte-identical.
+unlock/p2p/*.patch -whitespace
+unlock/licenses/NVIDIA-OPEN-COPYING.txt -whitespace

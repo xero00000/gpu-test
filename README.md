@@ -11,6 +11,7 @@ An agent skill and shared command interface for discovering GPUs, benchmarking t
 - NVIDIA, AMD, Intel, and Apple benchmark routes when a compatible runtime is installed.
 - Bundled Ampere unlock source and the board-specific EVGA TU104 port, with pinned asset generation and offline tests.
 - A separate cold-boot trial installer, post-boot verification, and trial removal through the same tool.
+- A source-preserving NVIDIA 595 Ampere P2P backport, private libcuda builder, guarded launcher, and measured remote-memory results.
 
 **Benchmarking covers available supported runtimes. Unlocking is limited to the qualified Linux/NVIDIA profiles below.**
 
@@ -114,6 +115,30 @@ The TU104 path additionally requires `--board-rom /path/to/your/captured-board.r
 
 The module sources were exercised in the earlier hardware trials behind the results below. The new package passed module builds, host transaction tests, and an installer dry run; **the newly packaged installer has not undergone a fresh cold-boot hardware trial**. Full support details, rollback behavior, source attribution, and firmware handling are in [the unlock guide](references/unlock.md). [Package validation receipt](results/unlock-package-validation.json).
 
+## Ampere P2P: RTX 3060 Ti ↔ RTX 3080
+
+The 24 October 2026 cold-boot trial passed **actual GPU remote reads and writes in both directions**, while retaining the existing tensor unlocks on all three cards. It requires both the kernel BAR1 backport and a private, per-process libcuda patch for the tested 595.104.02 binary.
+
+| 16 MiB runtime copy | Installed libcuda | Private libcuda | Change |
+| --- | ---: | ---: | ---: |
+| RTX 3060 Ti → RTX 3080 | 2.647 GB/s | 3.263 GB/s | +23.3% |
+| RTX 3080 → RTX 3060 Ti | 2.468 GB/s | 2.949 GB/s | +19.5% |
+
+Four seeded remote read/write kernels and 24 copy cases per library passed. All three tensor unlocks retained full reported issue rates, and seven matrix checks passed. The matched experimental ESE profile produced identical tokens, with **no consistent model-speed gain**: short-prompt median decode changed +1.3%, and 128-token-prompt decode changed −2.2%. Small changes from three repetitions with the desktop active are not established performance gains.
+
+Prepare private working copies without changing the installed source, libraries or boot configuration:
+
+```bash
+python3 scripts/gpu_tool.py p2p-prepare-source --source /usr/src/nvidia-595.104.02 --output runs/p2p-source
+python3 scripts/gpu_tool.py p2p-patch-libcuda --source /usr/lib64/libcuda.so.595.104.02 --output runs/p2p-libcuda
+```
+
+Source preparation retains unrelated existing patches and refuses overlapping target changes. The libcuda builder accepts one exact binary hash, preserves branch destinations, and refuses existing output. No NVIDIA library binary, initramfs, firmware or compiled module is distributed.
+
+**This is a qualified case study and preparation/verification workflow, not a general P2P installer.** The guarded `p2p-run` command additionally requires an explicit boot-module manifest, exact tested board identities/topology, native RM BAR1 support, and the reviewed private library. The RTX 2080 SUPER is excluded from the P2P process; its existing tensor unlock is preserved. NVML topology labels alone are insufficient proof.
+
+See the [P2P guide, build boundaries, launch command and default-profile recipe](references/p2p.md), [pinned patch provenance](unlock/p2p/provenance.json), and [sanitized measurements](results/2026-10-24-p2p/verification.json). The public preparation tools were tested against the local source/library and the launcher was checked on the already-qualified boot; this publication did not perform another cold boot or install a replacement driver.
+
 ## Install as an agent skill
 
 Clone into your Codex skills directory (the destination must not already exist):
@@ -167,7 +192,7 @@ The published helper passed ten supported GPU/mode combinations on this machine,
 
 ## Scope
 
-This repository contains the skill, shared CLI, benchmark helper, unlock module source, local asset generators, host tests, and measured results. Generated firmware, ROM images, compiled modules, and local kits are excluded from Git. Benchmark commands leave driver, clock, power-cap, and boot settings unchanged; explicit unlock installation creates only its separate trial and supporting files.
+This repository contains the skill, shared CLI, benchmark helper, unlock module source, local asset generators, P2P source/library preparation, host tests, and measured results. Generated firmware, ROM images, CUDA libraries, compiled modules, initramfs images and local kits are excluded from Git. Benchmark commands leave driver, clock, power-cap, and boot settings unchanged; explicit unlock installation creates only its separate trial and supporting files. P2P preparation creates private copies, and `p2p-run` selects the private library only for the explicitly launched process.
 
 ## License
 

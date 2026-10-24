@@ -14,3 +14,7 @@ modules.order
 *.tar.xz
 *.tar.zst
 *.pkg.tar.zst
+*.so
+*.so.*
+*.img
+*.gguf

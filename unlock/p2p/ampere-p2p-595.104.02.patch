@@ -1,0 +1,804 @@
+--- a/src/nvidia/generated/g_kern_bus_nvoc.c
++++ b/src/nvidia/generated/g_kern_bus_nvoc.c
+@@ -1064,7 +1064,10 @@
+     // default
+     else
+     {
+-        pThis->__kbusGetBar1P2PDmaInfo__ = &kbusGetBar1P2PDmaInfo_395e98;
++        // 595.104.02 ChipHal indexes: GA102=43, GA104=45.
++        pThis->__kbusGetBar1P2PDmaInfo__ =
++            (chipHal_HalVarIdx == 43UL || chipHal_HalVarIdx == 45UL) ?
++                &kbusGetBar1P2PDmaInfo_GH100 : &kbusGetBar1P2PDmaInfo_395e98;
+     }
+ 
+     // kbusIncreaseStaticBar1Refcount -- halified (2 hals) body
+@@ -1112,7 +1115,10 @@
+     // default
+     else
+     {
+-        pThis->__kbusCreateP2PMappingForBar1P2P__ = &kbusCreateP2PMappingForBar1P2P_395e98;
++        // 595.104.02 ChipHal indexes: GA102=43, GA104=45.
++        pThis->__kbusCreateP2PMappingForBar1P2P__ =
++            (chipHal_HalVarIdx == 43UL || chipHal_HalVarIdx == 45UL) ?
++                &kbusCreateP2PMappingForBar1P2P_GH100 : &kbusCreateP2PMappingForBar1P2P_395e98;
+     }
+ 
+     // kbusRemoveP2PMappingForBar1P2P -- halified (2 hals) body
+@@ -1124,7 +1130,10 @@
+     // default
+     else
+     {
+-        pThis->__kbusRemoveP2PMappingForBar1P2P__ = &kbusRemoveP2PMappingForBar1P2P_395e98;
++        // 595.104.02 ChipHal indexes: GA102=43, GA104=45.
++        pThis->__kbusRemoveP2PMappingForBar1P2P__ =
++            (chipHal_HalVarIdx == 43UL || chipHal_HalVarIdx == 45UL) ?
++                &kbusRemoveP2PMappingForBar1P2P_GH100 : &kbusRemoveP2PMappingForBar1P2P_395e98;
+     }
+ 
+     // kbusHasPcieBar1P2PMapping -- halified (2 hals) body
+@@ -1136,7 +1145,10 @@
+     // default
+     else
+     {
+-        pThis->__kbusHasPcieBar1P2PMapping__ = &kbusHasPcieBar1P2PMapping_d69453;
++        // 595.104.02 ChipHal indexes: GA102=43, GA104=45.
++        pThis->__kbusHasPcieBar1P2PMapping__ =
++            (chipHal_HalVarIdx == 43UL || chipHal_HalVarIdx == 45UL) ?
++                &kbusHasPcieBar1P2PMapping_GH100 : &kbusHasPcieBar1P2PMapping_d69453;
+     }
+ 
+     // kbusIsPcieBar1P2PMappingSupported -- halified (2 hals) body
+@@ -1148,7 +1160,10 @@
+     // default
+     else
+     {
+-        pThis->__kbusIsPcieBar1P2PMappingSupported__ = &kbusIsPcieBar1P2PMappingSupported_d69453;
++        // 595.104.02 ChipHal indexes: GA102=43, GA104=45.
++        pThis->__kbusIsPcieBar1P2PMappingSupported__ =
++            (chipHal_HalVarIdx == 43UL || chipHal_HalVarIdx == 45UL) ?
++                &kbusIsPcieBar1P2PMappingSupported_GH100 : &kbusIsPcieBar1P2PMappingSupported_d69453;
+     }
+ 
+     // kbusCheckFlaSupportedAndInit -- halified (2 hals) body
+--- a/src/nvidia/generated/g_virt_mem_allocator_nvoc.c
++++ b/src/nvidia/generated/g_virt_mem_allocator_nvoc.c
+@@ -336,7 +336,10 @@
+     // default
+     else
+     {
+-        pThis->__dmaAllocBar1P2PMapping__ = &dmaAllocBar1P2PMapping_395e98;
++        // 595.104.02 ChipHal indexes: GA102=43, GA104=45.
++        pThis->__dmaAllocBar1P2PMapping__ =
++            (chipHal_HalVarIdx == 43UL || chipHal_HalVarIdx == 45UL) ?
++                &dmaAllocBar1P2PMapping_GH100 : &dmaAllocBar1P2PMapping_395e98;
+     }
+ 
+     // dmaFreeBar1P2PMapping -- halified (2 hals) body
+@@ -348,7 +351,10 @@
+     // default
+     else
+     {
+-        pThis->__dmaFreeBar1P2PMapping__ = &dmaFreeBar1P2PMapping_d44104;
++        // 595.104.02 ChipHal indexes: GA102=43, GA104=45.
++        pThis->__dmaFreeBar1P2PMapping__ =
++            (chipHal_HalVarIdx == 43UL || chipHal_HalVarIdx == 45UL) ?
++                &dmaFreeBar1P2PMapping_GH100 : &dmaFreeBar1P2PMapping_d44104;
+     }
+ 
+     // dmaIsDefaultGpuUncached -- halified (2 hals) body
+--- /dev/null
++++ b/src/nvidia/inc/kernel/gpu/bif/p2p_trial.h
+@@ -0,0 +1,34 @@
++/* SPDX-License-Identifier: MIT
++ * Local 595.104.02 trial: only the two inventoried Ampere boards.
++ * PCI/subsystem dwords use device ID in the upper half, vendor in the lower.
++ */
++#ifndef GPU_P2P_TRIAL_H
++#define GPU_P2P_TRIAL_H
++#include "gpu/gpu.h"
++#include "os/os.h"
++static NV_INLINE NvBool gpuP2pTrialTarget(OBJGPU *pGpu)
++{
++    NvU32 deviceId;
++    NvU32 subsystemId;
++
++    if (pGpu == NULL)
++        return NV_FALSE;
++
++    deviceId = pGpu->idInfo.PCIDeviceID;
++    subsystemId = pGpu->idInfo.PCISubDeviceID;
++
++    // KernelBif is constructed before gpuGetIdInfo_HAL and _gpuInitChipInfo.
++    // The OS PCI handle is already initialized by gpuPostConstruct_IMPL.
++    // Read identification only; do not write PCI configuration or relax IDs.
++    if (deviceId == 0 || subsystemId == 0)
++    {
++        if (pGpu->hPci == NULL)
++            return NV_FALSE;
++        deviceId = osPciReadDword(pGpu->hPci, 0x00);
++        subsystemId = osPciReadDword(pGpu->hPci, 0x2c);
++    }
++
++    return (deviceId == 0x248910deU && subsystemId == 0x1389196eU) ||
++           (deviceId == 0x221610deU && subsystemId == 0x161219daU);
++}
++#endif
+--- a/src/nvidia/inc/kernel/rmapi/mapping_list.h
++++ b/src/nvidia/inc/kernel/rmapi/mapping_list.h
+@@ -66,6 +66,7 @@
+     ADDRESS_TRANSLATION   addressTranslation;
+     MEMORY_DESCRIPTOR    *pBar1P2PVirtMemDesc;              // The peer GPU mapped BAR1 region
+     MEMORY_DESCRIPTOR    *pBar1P2PPhysMemDesc;              // The peer GPU vidmem sub region
++    NvU64                 bar1P2PApertureOffset;             // Offset of the dynamic peer mapping in BAR1
+     CLI_DMA_MAPPING_INFO *pNext;
+ };
+ 
+--- a/src/nvidia/src/kernel/gpu/bif/kernel_bif.c
++++ b/src/nvidia/src/kernel/gpu/bif/kernel_bif.c
+@@ -31,6 +31,7 @@
+ #include "gpu/bif/kernel_bif.h"
+ #include "gpu/bus/kern_bus.h"
+ #include "gpu/gpu.h"
++#include "gpu/bif/p2p_trial.h"
+ #include "gpu/intr/intr.h"
+ #include "os/os.h"
+ #include "platform/chipset/chipset.h"
+@@ -1161,8 +1162,16 @@
+ {
+     NvU32 data32;
+ 
+-    // P2P Override
++    // Enable BAR1 P2P reads and writes without overriding platform atomic capabilities.
+     pKernelBif->p2pOverride = BIF_P2P_NOT_OVERRIDEN;
++    if (gpuP2pTrialTarget(pGpu))
++    {
++        pKernelBif->p2pOverride =
++            DRF_DEF(_REG_STR, _CL_FORCE_P2P, _READ, _ENABLE) |
++            DRF_DEF(_REG_STR, _CL_FORCE_P2P, _WRITE, _ENABLE) |
++            DRF_DEF(_REG_STR, _CL_FORCE_P2P, _ATOMICS, _DEFAULT);
++        NV_PRINTF(LEVEL_WARNING, "GPU P2P trial 20261024-r2: Ampere board read/write BAR1 path; tensor unlocks retained\n");
++    }
+     if (osReadRegistryDword(pGpu, NV_REG_STR_CL_FORCE_P2P, &data32) == NV_OK)
+     {
+         pKernelBif->p2pOverride = data32;
+@@ -1178,7 +1187,8 @@
+         pKernelBif->forceP2PType = data32;
+     }
+ 
+-    pKernelBif->pcieP2PType = NV_REG_STR_RM_PCIEP2P_TYPE_DEFAULT;
++    pKernelBif->pcieP2PType = gpuP2pTrialTarget(pGpu) ?
++        NV_REG_STR_RM_PCIEP2P_TYPE_BAR1 : NV_REG_STR_RM_PCIEP2P_TYPE_DEFAULT;
+     if (osReadRegistryDword(pGpu, NV_REG_STR_RM_PCIEP2P_TYPE, &data32) == NV_OK)
+     {
+         pKernelBif->pcieP2PType = data32;
+@@ -2103,4 +2113,3 @@
+ 
+     return NV_ERR_GENERIC;
+ }
+-
+--- a/src/nvidia/src/kernel/gpu/bus/arch/hopper/kern_bus_gh100.c
++++ b/src/nvidia/src/kernel/gpu/bus/arch/hopper/kern_bus_gh100.c
+@@ -23,6 +23,7 @@
+ 
+ #include "core/core.h"
+ #include "gpu/gpu.h"
++#include "gpu/bif/p2p_trial.h"
+ 
+ #include <class/cl00fc.h>      // FABRIC_VASPACE_A
+ #include "gpu/bus/kern_bus.h"
+@@ -1456,6 +1457,10 @@
+     NvU32      gpuInst1   = gpuGetInstance(pGpu1);
+     KernelBif *pKernelBif = GPU_GET_KERNEL_BIF(pGpu0);
+ 
++    // Local hardware trial: do not expose new peer combinations.
++    if (!gpuP2pTrialTarget(pGpu0) || !gpuP2pTrialTarget(pGpu1))
++        return NV_FALSE;
++
+     // Only support if available by default, or if forced by regkey.
+     if ((pKernelBif->pcieP2PType != NV_REG_STR_RM_PCIEP2P_TYPE_BAR1) &&
+         !pKernelBus0->getProperty(pKernelBus0, PDB_PROP_KBUS_SUPPORT_BAR1_P2P_BY_DEFAULT))
+--- a/src/nvidia/src/kernel/gpu/bus/arch/maxwell/kern_bus_gm107.c
++++ b/src/nvidia/src/kernel/gpu/bus/arch/maxwell/kern_bus_gm107.c
+@@ -857,6 +857,43 @@
+            !kbusIsP2pMailboxClientAllocated(pKernelBus);
+ }
+ 
++// Share BAR1 VA only; the console's physical reservation is unchanged.
++static NvBool
++_kbusCanShareConsoleWithStaticBar1_GM107
++(
++    OBJGPU *pGpu,
++    KernelBus *pKernelBus,
++    MEMORY_DESCRIPTOR *pConsoleMemDesc,
++    NvU32 gfid
++)
++{
++    KernelBif *pKernelBif = GPU_GET_KERNEL_BIF(pGpu);
++    NvU64 staticSize;
++
++    if (!RMCFG_FEATURE_PLATFORM_UNIX || !IS_GFID_PF(gfid) || IS_VIRTUAL(pGpu) ||
++        pKernelBif == NULL ||
++        pKernelBif->pcieP2PType != NV_REG_STR_RM_PCIEP2P_TYPE_BAR1 ||
++        kbusIsBar1PhysicalModeEnabled(pKernelBus) ||
++        pKernelBus->p2pPcie.writeMailboxTotalSize != 0 ||
++        memdescGetAddressSpace(pConsoleMemDesc) != ADDR_FBMEM ||
++        memdescGetPteKind(pConsoleMemDesc) != NV_MMU_PTE_KIND_PITCH ||
++        memdescGetPhysAddr(pConsoleMemDesc, AT_GPU, 0) != 0)
++    {
++        return NV_FALSE;
++    }
++
++    staticSize = RM_ALIGN_DOWN(
++        memmgrGetClientFbAddrSpaceSize(pGpu, GPU_GET_MEMORY_MANAGER(pGpu)),
++        RM_PAGE_SIZE_2M);
++    if (memdescGetSize(pConsoleMemDesc) == 0 ||
++        memdescGetSize(pConsoleMemDesc) > staticSize)
++    {
++        return NV_FALSE;
++    }
++
++    return kbusIsStaticBar1Supported_HAL(pGpu, pKernelBus, gfid, 0, 0) == NV_OK;
++}
++
+ /*!
+  * @brief Init BAR1.
+  *
+@@ -886,6 +923,7 @@
+                                                    RMCFG_FEATURE_PLATFORM_WINDOWS);
+     NvU64             consoleSize     = 0;
+     NvBool            bStaticBar1Supported;
++    NvBool            bShareConsoleWithStaticBar1 = NV_FALSE;
+ 
+     vaRangeMax = pKernelBus->bar1[gfid].apertureLength - 1;
+ 
+@@ -1034,8 +1072,7 @@
+     NV_ASSERT(pKernelBus->bar1[gfid].apertureLength <= kbusGetPciBarSize(pKernelBus, 1));
+ 
+     //
+-    // If we need to preserve a console mapping at the start of BAR1, we
+-    // need to allocate the VA space before anything else gets allocated.
++    // Reserve console VA unless it can share the static mapping.
+     //
+     // This must come before enabling the static BAR1 mapping for the same reason
+     // The consoleSize is also used for below kbusIsStaticBar1Supported_HAL check.
+@@ -1070,6 +1107,14 @@
+         if (pConsoleMemDesc)
+         {
+             consoleSize = memdescGetSize(pConsoleMemDesc);
++
++            bShareConsoleWithStaticBar1 = !bSmoothTransitionEnabled &&
++                _kbusCanShareConsoleWithStaticBar1_GM107(pGpu, pKernelBus, pConsoleMemDesc, gfid);
++            if (bShareConsoleWithStaticBar1)
++            {
++                consoleSize = 0;
++                goto console_mapping_done;
++            }
+ 
+             NV_PRINTF(LEVEL_INFO,
+                         "preserving console BAR1 mapping (0x%llx)\n",
+@@ -1116,6 +1161,7 @@
+         }
+     }
+ 
++console_mapping_done:
+     //
+     // Reserve space for max number of peers for the mailbox p2p  regardless of SLI config
+     //
+@@ -1165,6 +1211,19 @@
+         NV_ASSERT_OK_OR_GOTO(rmStatus,
+                              kbusEnableStaticBar1Mapping_HAL(pGpu, pKernelBus, gfid, bar1Offset),
+                              kbusInitBar1_failed);
++
++        if (bShareConsoleWithStaticBar1)
++        {
++            NV_ASSERT(bar1Offset == 0);
++            pKernelBus->bBar1ConsolePreserved = NV_TRUE;
++            NV_PRINTF(LEVEL_INFO, "Console shares static BAR1 identity mapping\n");
++        }
++    }
++    else if (bShareConsoleWithStaticBar1)
++    {
++        // Eligibility must not change after skipping the separate console map.
++        rmStatus = NV_ERR_INVALID_STATE;
++        goto kbusInitBar1_failed;
+     }
+ 
+     //
+@@ -1237,6 +1296,14 @@
+ {
+     if (pKernelBus->bBar1ConsolePreserved && IS_GFID_PF(gfid))
+     {
++        if (pKernelBus->bar1[gfid].bStaticBar1Enabled &&
++            pKernelBus->bar1[gfid].staticBar1.startOffset == 0)
++        {
++            // Static BAR1 owns this mapping.
++            pKernelBus->bBar1ConsolePreserved = NV_FALSE;
++            return;
++        }
++
+         MemoryManager *pMemoryManager = GPU_GET_MEMORY_MANAGER(pGpu);
+         PMEMORY_DESCRIPTOR pConsoleMemDesc =
+             memmgrGetReservedConsoleMemDesc(pGpu, pMemoryManager);
+--- a/src/nvidia/src/kernel/gpu/bus/arch/maxwell/kern_bus_gm200.c
++++ b/src/nvidia/src/kernel/gpu/bus/arch/maxwell/kern_bus_gm200.c
+@@ -198,6 +198,19 @@
+     PMEMORY_DESCRIPTOR *ppWMBoxMemDesc
+ )
+ {
++    if (pKernelBus0->p2pPcie.writeMailboxBar1Addr ==
++        PCIE_P2P_INVALID_WRITE_MAILBOX_ADDR)
++    {
++        NV_PRINTF(LEVEL_ERROR,
++                  "PCIe mailbox P2P requested without an allocated mailbox area "
++                  "ownerGpu=%u accessorGpu=%u peer=%u writeMailboxBar1Addr=0x%llx\n",
++                  gpuGetInstance(pGpu0),
++                  gpuGetInstance(pGpu1),
++                  local2Remote,
++                  pKernelBus0->p2pPcie.writeMailboxBar1Addr);
++        return ~0ULL;
++    }
++
+     return kbusSetupPeerBarAccess(pGpu0, pGpu1,
+                 gpumgrGetGpuPhysFbAddr(pGpu0) +
+                     pKernelBus0->p2pPcie.writeMailboxBar1Addr +
+@@ -797,6 +810,15 @@
+ 
+     if (!kbusIsP2pMailboxClientAllocated(pKernelBus))
+     {
++        if (pKernelBus->p2pPcie.writeMailboxBar1Addr ==
++            PCIE_P2P_INVALID_WRITE_MAILBOX_ADDR)
++        {
++            NV_PRINTF(LEVEL_ERROR,
++                      "P2P mailbox area expected from RM but no valid address is installed gpu=%u\n",
++                      gpuGetInstance(pGpu));
++            return NV_ERR_INVALID_STATE;
++        }
++
+         // P2P mailbox area already allocated by RM. Nothing to do.
+         return NV_OK;
+     }
+--- a/src/nvidia/src/kernel/gpu/bus/arch/pascal/kern_bus_gp100.c
++++ b/src/nvidia/src/kernel/gpu/bus/arch/pascal/kern_bus_gp100.c
+@@ -63,6 +63,11 @@
+         FLD_TEST_DRF(_P2PAPI, _ATTRIBUTES, _CONNECTION_TYPE, _NVLINK_INDIRECT, attributes))
+     {
+         return kbusCreateP2PMappingForNvlink_HAL(pGpu0, pKernelBus0, pGpu1, pKernelBus1, peer0, peer1, attributes);
++    }
++
++    if (FLD_TEST_DRF(_P2PAPI, _ATTRIBUTES, _CONNECTION_TYPE, _PCIE_BAR1, attributes))
++    {
++        return kbusCreateP2PMappingForBar1P2P_HAL(pGpu0, pKernelBus0, pGpu1, pKernelBus1, attributes);
+     }
+ 
+     if (FLD_TEST_DRF(_P2PAPI, _ATTRIBUTES, _CONNECTION_TYPE, _PCIE, attributes))
+@@ -641,6 +646,11 @@
+         FLD_TEST_DRF(_P2PAPI, _ATTRIBUTES, _CONNECTION_TYPE, _NVLINK_INDIRECT, attributes))
+     {
+         return kbusRemoveP2PMappingForNvlink_HAL(pGpu0, pKernelBus0, pGpu1, pKernelBus1, peer0, peer1, attributes);
++    }
++
++    if (FLD_TEST_DRF(_P2PAPI, _ATTRIBUTES, _CONNECTION_TYPE, _PCIE_BAR1, attributes))
++    {
++        return kbusRemoveP2PMappingForBar1P2P_HAL(pGpu0, pKernelBus0, pGpu1, pKernelBus1, attributes);
+     }
+ 
+     if (FLD_TEST_DRF(_P2PAPI, _ATTRIBUTES, _CONNECTION_TYPE, _PCIE, attributes))
+--- a/src/nvidia/src/kernel/gpu/bus/arch/turing/kern_bus_tu102.c
++++ b/src/nvidia/src/kernel/gpu/bus/arch/turing/kern_bus_tu102.c
+@@ -23,6 +23,7 @@
+ 
+ #include "core/core.h"
+ #include "gpu/gpu.h"
++#include "gpu/bif/p2p_trial.h"
+ #include "gpu/bus/kern_bus.h"
+ #include "os/nv_memory_iterator.h"
+ #include "kernel/gpu/nvlink/kernel_nvlink.h"
+@@ -363,8 +364,8 @@
+  *                             the regkeys specified are still attempting to
+  *                             force it
+  */
+-NV_STATUS
+-kbusIsStaticBar1Supported_TU102
++static NV_STATUS
++_trialStockStaticBar1Supported
+ (
+     OBJGPU     *pGpu,
+     KernelBus  *pKernelBus,
+@@ -494,6 +495,162 @@
+                 if ((consoleSize != 0) || (mailboxSize != 0))
+                 {
+                     requiredAutoBar1Size += RM_PAGE_SIZE_512M - ((consoleSize + mailboxSize) % RM_PAGE_SIZE_512M);
++                }
++
++                if (bar1VASizeAligned >= requiredAutoBar1Size)
++                {
++                    NV_PRINTF(LEVEL_INFO, "Enabling static BAR1 automatically!\n");
++                    return NV_OK;
++                }
++                else
++                {
++                    return NV_ERR_NOT_SUPPORTED;
++                }
++            }
++        default:
++            return NV_ERR_INVALID_REGISTRY_KEY;
++    }
++}
++
++NV_STATUS
++kbusIsStaticBar1Supported_TU102
++(
++    OBJGPU     *pGpu,
++    KernelBus  *pKernelBus,
++    NvU32       gfid,
++    NvU64       consoleSize,
++    NvU64       mailboxSize
++)
++{
++    if (!gpuP2pTrialTarget(pGpu))
++        return _trialStockStaticBar1Supported(pGpu, pKernelBus, gfid, consoleSize, mailboxSize);
++
++    NvU64 bar1Size = kbusGetPciBarSize(pKernelBus, 1);
++    MemoryManager *pMemoryManager = GPU_GET_MEMORY_MANAGER(pGpu);
++    KernelFifo *pKernelFifo = GPU_GET_KERNEL_FIFO(pGpu);
++
++    NvU64 fbSize            = pMemoryManager->Ram.fbAddrSpaceSizeMb << 20;
++    NvU64 clientFbSizeAligned =
++        RM_ALIGN_DOWN(memmgrGetClientFbAddrSpaceSize(pGpu, pMemoryManager),
++                      RM_PAGE_SIZE_2M);
++    NvU64 bar1VASize        = pKernelBus->bar1[gfid].mappableLength;
++    NvU64 bar1VASizeAligned = RM_ALIGN_DOWN(bar1VASize, RM_PAGE_SIZE_2M);
++    NvU64 reservedSize;
++    NvU64 staticBar1Offset;
++    NvU64 maxStaticMapSize;
++
++    if (gfid != 0)
++    {
++        return NV_ERR_NOT_SUPPORTED;
++    }
++
++    if ((fbSize == 0) || (bar1Size == 0) || (clientFbSizeAligned == 0))
++    {
++        return NV_ERR_NOT_SUPPORTED;
++    }
++
++    if (hypervisorIsVgxHyper())
++    {
++        //
++        // We don't want to consume BAR1 from the PF if
++        // we're not going to use it ourselves
++        //
++        return NV_ERR_NOT_SUPPORTED;
++    }
++
++    //
++    // BAR1 mappings not supported in CC/PPCIE mode
++    // TODO: Bug 5201018
++    //
++    if (gpuIsCCFeatureEnabled(pGpu))
++    {
++        return NV_ERR_NOT_SUPPORTED;
++    }
++
++    if (!portSafeAddU64(consoleSize, mailboxSize, &reservedSize) ||
++        reservedSize > NV_U64_MAX - (RM_PAGE_SIZE_512M - 1))
++    {
++        return NV_ERR_INVALID_ARGUMENT;
++    }
++
++    staticBar1Offset = NV_ALIGN_UP(reservedSize, RM_PAGE_SIZE_512M);
++    maxStaticMapSize = (bar1VASizeAligned > staticBar1Offset) ?
++        bar1VASizeAligned - staticBar1Offset : 0;
++
++    switch (pKernelBus->staticBar1ForceType)
++    {
++        case NV_REG_STR_RM_FORCE_STATIC_BAR1_DISABLE:
++            return NV_ERR_NOT_SUPPORTED;
++        case NV_REG_STR_RM_FORCE_STATIC_BAR1_ENABLE:
++            {
++                //
++                // Only check for at least client-visible FB size on the assumption the user
++                // really wants to enable static BAR1 regardless of the auto checks
++                //
++                NvU64 bar1MapSize =
++                    RM_ALIGN_DOWN(memmgrGetClientFbAddrSpaceSize(pGpu, pMemoryManager),
++                                  RM_PAGE_SIZE_2M);
++
++                if (maxStaticMapSize < bar1MapSize)
++                {
++                    NV_PRINTF(LEVEL_ERROR, "BAR1 size %lld is not large enough to map FB size"
++                                           "%lld to force static BAR1\n",
++                                            bar1VASizeAligned, bar1MapSize);
++                    DBG_BREAKPOINT();
++
++                    return NV_ERR_INVALID_REGISTRY_KEY;
++                }
++
++                return NV_OK;
++            }
++        case NV_REG_STR_RM_FORCE_STATIC_BAR1_AUTO:
++            {
++                //
++                // GPU BAR1 supports the SYSMEM mapping for the bar1 doorbell, RM needs
++                // to make sure that BAR1 VA has space left for such cases after all
++                // FB statically mapped in BAR1. Bug 3869651 #14.
++                // 64KB for MMIO priv
++                //
++
++                //
++                // Auto-enable if there is enough space to map
++                // + the client-visible FB range
++                // + enough to reserve enough space for userD BAR mappings
++                //       for every channel in the system
++                //       (whether userD is allocated by RM or by the user)
++                // + mmio priv mapped once globally (64KB)
++                // + doorbell mapping mapped per client (64KB each) over BAR1 on Hopper+
++                //       BAR1 mapping shared by all clients with resuable BAR1, but not
++                //         mapped at all if pre-Hopper.
++                //       Don't bother checking for Hopper+/pre-Hopper since 64KB is
++                //         relatively small
++                // + console reservation
++                // + mailbox BAR1 as fallback P2P until it is disabled
++                // + alignment padding for 512MB page size
++                //
++                NvU32 userdSize = 0;
++                NvU32 numChannels = kfifoGetMaxChannelsInSystem(pGpu, pKernelFifo);
++                NvU64 requiredAutoBar1Size;
++                NvU64 mmioPrivSize = 16 * RM_PAGE_SIZE;
++                NvU64 doorbellSize = 16 * RM_PAGE_SIZE;
++                NvU64 dynamicBar1Size;
++
++                kfifoGetUserdSizeAlign_HAL(pKernelFifo, &userdSize, NULL);
++
++                dynamicBar1Size = (NvU64)userdSize * numChannels + mmioPrivSize + doorbellSize;
++
++                if (maxStaticMapSize < clientFbSizeAligned)
++                    return NV_ERR_NOT_SUPPORTED;
++
++                // Dynamic mappings can also use the alignment gap.
++                NvU64 alignmentPadding = staticBar1Offset - reservedSize;
++                requiredAutoBar1Size = clientFbSizeAligned + staticBar1Offset;
++                if (dynamicBar1Size > alignmentPadding &&
++                    !portSafeAddU64(requiredAutoBar1Size,
++                                    dynamicBar1Size - alignmentPadding,
++                                    &requiredAutoBar1Size))
++                {
++                    return NV_ERR_NOT_SUPPORTED;
+                 }
+ 
+                 if (bar1VASizeAligned >= requiredAutoBar1Size)
+--- a/src/nvidia/src/kernel/gpu/mem_mgr/arch/hopper/virt_mem_allocator_gh100.c
++++ b/src/nvidia/src/kernel/gpu/mem_mgr/arch/hopper/virt_mem_allocator_gh100.c
+@@ -57,6 +57,7 @@
+     OBJGPU *pPeerGpu = NULL;
+     KernelBus *pPeerKernelBus = NULL;
+     NV_STATUS status = NV_OK;
++    NvBool bBar1Mapped = NV_FALSE;
+ 
+     if (params == NULL ||
+         params->pVas == NULL ||
+@@ -93,6 +94,8 @@
+                                      NULL);
+     if (status != NV_OK)
+         goto cleanup;
++
++    bBar1Mapped = NV_TRUE;
+ 
+     bar1PhyAddr = gpumgrGetGpuPhysFbAddr(pPeerGpu) + phyAddr;
+ 
+@@ -127,6 +130,7 @@
+ 
+     params->pDmaMappingInfo->pBar1P2PVirtMemDesc = pBar1P2PVirtMemDesc;
+     params->pDmaMappingInfo->pBar1P2PPhysMemDesc = pBar1P2PPhysMemDesc;
++    params->pDmaMappingInfo->bar1P2PApertureOffset = phyAddr;
+ 
+     // Save the MemDesc to be the newly created sysmem in the peer BAR1 aperture
+     params->pMemDescOut = pBar1P2PVirtMemDesc;
+@@ -147,10 +151,10 @@
+     return NV_OK;;
+ 
+ cleanup:
+-    if (phyAddr != 0)
++    if (bBar1Mapped)
+     {
+         kbusUnmapFbApertureSingle(pPeerGpu, pPeerKernelBus,
+-                                  params->pPeerMemDesc,
++                                  pBar1P2PPhysMemDesc,
+                                   phyAddr,
+                                   bar1ApertureLen,
+                                   BUS_MAP_FB_FLAGS_MAP_UNICAST);
+@@ -186,17 +190,18 @@
+     {
+         OBJGPU *pPeerGpu = pDmaMappingInfo->pBar1P2PPhysMemDesc->pGpu;
+         KernelBus *pPeerKernelBus = GPU_GET_KERNEL_BUS(pPeerGpu);
+-        NvU64   bar1PhysAddr = memdescGetPhysAddr(pDmaMappingInfo->pBar1P2PVirtMemDesc, AT_CPU, 0);
++        NvU64   bar1ApertureOffset = pDmaMappingInfo->bar1P2PApertureOffset;
+         NvU64   bar1MapSize  = memdescGetSize(pDmaMappingInfo->pBar1P2PVirtMemDesc);
+ 
+         // Unmap the BAR1 mapping
+         kbusUnmapFbApertureSingle(pPeerGpu, pPeerKernelBus,
+                                   pDmaMappingInfo->pBar1P2PPhysMemDesc,
+-                                  bar1PhysAddr,
++                                  bar1ApertureOffset,
+                                   bar1MapSize,
+                                   BUS_MAP_FB_FLAGS_MAP_UNICAST);
+ 
+-        NV_PRINTF(LEVEL_INFO, "bar1p2p surface UN-mapped at 0x%llx + 0x%llx\n", bar1PhysAddr, bar1MapSize);
++        NV_PRINTF(LEVEL_INFO, "bar1p2p surface UN-mapped at 0x%llx + 0x%llx\n",
++                              bar1ApertureOffset, bar1MapSize);
+ 
+         // Destroy the source memory descriptor
+         memdescDestroy(pDmaMappingInfo->pBar1P2PPhysMemDesc);
+--- a/src/nvidia/src/kernel/rmapi/nv_gpu_ops.c
++++ b/src/nvidia/src/kernel/rmapi/nv_gpu_ops.c
+@@ -3145,15 +3145,29 @@
+ }
+ 
+ // TODO: Bug 3264814: [HOPPER][RM] Support Bar1 P2P PCIE Atomics
+-// The logic here should consider bus topology and routing between
+-// the two GPUs.
++// The logic here should consider bus topology and routing between the two
++// GPUs. Mixed-architecture BAR1 mappings must remain non-coherent until that
++// routing and the atomic protocol compatibility have been validated.
+ NvBool _nvGpuOpsIsBar1P2pAtomicEnabled(struct gpuSession *session, OBJGPU *pMappingGpu, OBJGPU *pOwningGpu)
+ {
+-    NvU32 arch;
+-    NV_STATUS status = _nvGpuOpsGetDeviceArchByGpuId(session, pOwningGpu->gpuId, &arch);
++    NvU32 mappingArch;
++    NvU32 owningArch;
++    NV_STATUS status = _nvGpuOpsGetDeviceArchByGpuId(session, pOwningGpu->gpuId, &owningArch);
+ 
+     NV_ASSERT_OR_RETURN(status == NV_OK, 0);
+-    return arch >= GPU_ARCHITECTURE_BLACKWELL_GB1XX;
++
++    if (pMappingGpu != NULL)
++    {
++        status = _nvGpuOpsGetDeviceArchByGpuId(session, pMappingGpu->gpuId, &mappingArch);
++        NV_ASSERT_OR_RETURN(status == NV_OK, 0);
++
++        if (mappingArch != owningArch)
++        {
++            return NV_FALSE;
++        }
++    }
++
++    return owningArch >= GPU_ARCHITECTURE_BLACKWELL_GB1XX;
+ }
+ 
+ NV_STATUS nvGpuOpsGetP2PCaps(struct gpuDevice *device1,
+@@ -3571,6 +3585,7 @@
+ }
+ 
+ static GMMU_APERTURE nvGpuOpsGetExternalAllocAperture(struct gpuSession *session,
++                                                      OBJGPU *pMappingGpu,
+                                                       PMEMORY_DESCRIPTOR pMemDesc,
+                                                       NvBool isIndirectPeerSupported,
+                                                       NvBool isPeerSupported,
+@@ -3588,7 +3603,7 @@
+ 
+         if (isBar1P2PSupported)
+         {
+-            if (_nvGpuOpsIsBar1P2pAtomicEnabled(session, NULL, pMemDesc->pGpu))
++            if (_nvGpuOpsIsBar1P2pAtomicEnabled(session, pMappingGpu, pMemDesc->pGpu))
+             {
+                 return GMMU_APERTURE_SYS_COH;
+             }
+@@ -3842,22 +3857,42 @@
+  *
+  * @param[in] pAddresses        : Array of physical addresses to be encoded.
+  * @param[in] dmaBaseAddress    : IOVA base address.
++ * @param[in] dmaSize           : IOVA window size.
++ * @param[in] pageSize          : Size covered by each physical address.
+  * @param[in] count             : Count of physical addresses.
+  */
+-static void
++static NV_STATUS
+ _nvGpuOpsEncodeBar1P2PAddrs
+ (
+     NvU64 *pAddresses,
+     NvU64  dmaBaseAddress,
++    NvU64  dmaSize,
++    NvU64  pageSize,
+     NvU64  count
+ )
+ {
+-    NvU32 i;
++    NvU64 i;
+ 
+     for (i = 0; i < count; i++)
+     {
+-        pAddresses[i] = dmaBaseAddress + pAddresses[i];
+-    }
++        NvU64 offset = pAddresses[i];
++        NvU64 encodedAddress;
++
++        if ((offset >= dmaSize) ||
++            (pageSize > (dmaSize - offset)) ||
++            !portSafeAddU64(dmaBaseAddress, offset, &encodedAddress))
++        {
++            NV_PRINTF(LEVEL_ERROR,
++                      "BAR1 P2P address range exceeds DMA window: "
++                      "offset=0x%llx pageSize=0x%llx dmaBase=0x%llx dmaSize=0x%llx\n",
++                      offset, pageSize, dmaBaseAddress, dmaSize);
++            return NV_ERR_INVALID_ADDRESS;
++        }
++
++        pAddresses[i] = encodedAddress;
++    }
++
++    return NV_OK;
+ }
+ 
+ static
+@@ -3986,6 +4021,7 @@
+         memdescSetPteKindForGpu(pMemDesc, pMappingGpu, oldKind);
+ 
+     aperture = nvGpuOpsGetExternalAllocAperture(session,
++                                                pMappingGpu,
+                                                 pMemDesc,
+                                                 isIndirectPeerSupported,
+                                                 isPeerSupported,
+@@ -4088,7 +4124,7 @@
+         }
+     }
+ 
+-    if (aperture == GMMU_APERTURE_PEER)
++    if ((aperture == GMMU_APERTURE_PEER) && !isBar1P2PSupported)
+     {
+         nvFieldSet32(&pPteFmt->fldPeerIndex, peerId, pte.v8);
+ 
+@@ -4198,7 +4234,13 @@
+             status = NV_ERR_INVALID_STATE;
+             goto done;
+         }
+-        _nvGpuOpsEncodeBar1P2PAddrs(physicalAddresses, dmaBaseAddress, pteCount);
++        NV_CHECK_OK_OR_GOTO(status, LEVEL_ERROR,
++                            _nvGpuOpsEncodeBar1P2PAddrs(physicalAddresses,
++                                                        dmaBaseAddress,
++                                                        dmaSize,
++                                                        mappingPageSize,
++                                                        pteCount),
++                            done);
+     }
+     else
+     {
+@@ -4404,6 +4446,7 @@
+         return NV_ERR_INVALID_ARGUMENT;
+ 
+     aperture = nvGpuOpsGetExternalAllocAperture(session,
++                                                pMappingGpu,
+                                                 pMemDesc,
+                                                 isIndirectPeerSupported,
+                                                 isPeerSupported,
+@@ -4425,7 +4468,7 @@
+         return NV_ERR_BUFFER_TOO_SMALL;
+ 
+ 
+-    if (aperture == GMMU_APERTURE_PEER)
++    if ((aperture == GMMU_APERTURE_PEER) && !isBar1P2PSupported)
+     {
+         //
+         // Any fabric memory descriptors are pre-encoded with the fabric base address
+@@ -4532,7 +4575,13 @@
+             status = NV_ERR_INVALID_STATE;
+             goto done;
+         }
+-        _nvGpuOpsEncodeBar1P2PAddrs(physicalAddresses, dmaBaseAddress, physAddrCount);
++        NV_CHECK_OK_OR_GOTO(status, LEVEL_ERROR,
++                            _nvGpuOpsEncodeBar1P2PAddrs(physicalAddresses,
++                                                        dmaBaseAddress,
++                                                        dmaSize,
++                                                        mappingPageSize,
++                                                        physAddrCount),
++                            done);
+     }
+     else
+     {
+@@ -7992,6 +8041,7 @@
+     if (pGpuMemoryInfo->contig)
+     {
+         GMMU_APERTURE aperture = nvGpuOpsGetExternalAllocAperture(NULL,
++                                                                  pMappingGpu,
+                                                                   pMemDesc,
+                                                                   NV_FALSE,
+                                                                   NV_FALSE,

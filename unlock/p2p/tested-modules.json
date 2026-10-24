@@ -1,0 +1,22 @@
+{
+  "kernel": "7.2.10-200.nobara.fc44.x86_64",
+  "driver": "595.104.02",
+  "built_modules": {
+    "nvidia": {
+      "build_id": "64152aff2b887c95b72e310df1120ea7a6b7bf44"
+    },
+    "nvidia-uvm": {
+      "build_id": "a756ab657d7de4bd0c99166c3f229c4d6c37b2ef"
+    },
+    "nvidia-modeset": {
+      "build_id": "ec303bddbe024cfadbfa6986c8571088306acb36"
+    },
+    "nvidia-drm": {
+      "build_id": "a688a054ce1512e57721673cb4d49d37f2312514"
+    },
+    "nvidia-peermem": {
+      "build_id": "a465cdd8c78a4ead3afe9244bf6b26565e4fe0dd"
+    }
+  },
+  "scope": "These are the actual tested r2 build IDs. A separate rebuilt driver requires its own module manifest and cold-boot qualification."
+}

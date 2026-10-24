@@ -1,0 +1,246 @@
+[
+  {
+    "gpu": "RTX 3060 Ti",
+    "stage": "first-trial",
+    "power_cap_w": 140,
+    "cublas_version": 120803,
+    "results": [
+      {
+        "mode": "fp16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          2.3753387133280435,
+          2.3855786323547363,
+          2.3767040570576987,
+          2.38045867284139,
+          2.378752072652181
+        ],
+        "median_tflops": 57.77775458489162,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      },
+      {
+        "mode": "bf16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          2.39684263865153,
+          2.38865073521932,
+          2.3855786323547363,
+          2.3848959604899087,
+          2.3842132886250815
+        ],
+        "median_tflops": 57.6124180557142,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      },
+      {
+        "mode": "tf32_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          4.611071904500325,
+          4.608341217041016,
+          4.610047976175944,
+          4.608341217041016,
+          4.609365463256836
+        ],
+        "median_tflops": 29.817326173761423,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      }
+    ]
+  },
+  {
+    "gpu": "RTX 3060 Ti",
+    "stage": "r2",
+    "power_cap_w": 140,
+    "cublas_version": 120803,
+    "results": [
+      {
+        "mode": "fp16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          2.3842132886250815,
+          2.3746560414632163,
+          2.3784106572469077,
+          2.3763626416524253,
+          2.3801172574361167
+        ],
+        "median_tflops": 57.78604844929947,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      },
+      {
+        "mode": "bf16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          2.3855786323547363,
+          2.3855786323547363,
+          2.381824016571045,
+          2.383530616760254,
+          2.383530616760254
+        ],
+        "median_tflops": 57.661920726157895,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      },
+      {
+        "mode": "tf32_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          4.6090240478515625,
+          4.609706560770671,
+          4.605610529581706,
+          4.604245185852051,
+          4.605269432067871
+        ],
+        "median_tflops": 29.841636106490874,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      }
+    ]
+  },
+  {
+    "gpu": "RTX 2080 SUPER",
+    "stage": "first-trial",
+    "power_cap_w": 160,
+    "cublas_version": 120803,
+    "results": [
+      {
+        "mode": "fp16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          2.0878186225891113,
+          2.0896426836649575,
+          2.0902613004048667,
+          2.09442138671875,
+          2.0890986124674478
+        ],
+        "median_tflops": 65.77150942904278,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      }
+    ]
+  },
+  {
+    "gpu": "RTX 2080 SUPER",
+    "stage": "r2",
+    "power_cap_w": 160,
+    "cublas_version": 120803,
+    "results": [
+      {
+        "mode": "fp16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          2.0934826532999673,
+          2.09116792678833,
+          2.090208053588867,
+          2.091008027394613,
+          2.087146600087484
+        ],
+        "median_tflops": 65.7285632916715,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      }
+    ]
+  },
+  {
+    "gpu": "RTX 3080",
+    "stage": "first-trial",
+    "power_cap_w": 320,
+    "cublas_version": 120803,
+    "results": [
+      {
+        "mode": "fp16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          1.4609066645304363,
+          1.4510080019632976,
+          1.3444159825642903,
+          1.3441707293192546,
+          1.4315519332885742
+        ],
+        "median_tflops": 96.00696298615865,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      },
+      {
+        "mode": "bf16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          1.4493014017740886,
+          1.449984073638916,
+          1.345194657643636,
+          1.3335893948872883,
+          1.4506667455037434
+        ],
+        "median_tflops": 94.8311740427223,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      },
+      {
+        "mode": "tf32_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          2.7190612157185874,
+          2.7013120651245117,
+          2.6866346995035806,
+          2.703733444213867,
+          2.847200075785319
+        ],
+        "median_tflops": 50.833026371784776,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      }
+    ]
+  },
+  {
+    "gpu": "RTX 3080",
+    "stage": "r2",
+    "power_cap_w": 320,
+    "cublas_version": 120803,
+    "results": [
+      {
+        "mode": "fp16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          1.7308160463968914,
+          1.3509012858072917,
+          1.3489492734273274,
+          1.3475839296976726,
+          1.441109339396159
+        ],
+        "median_tflops": 101.7387094941339,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      },
+      {
+        "mode": "bf16_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          1.3516799608866374,
+          1.4424746831258137,
+          1.4482773145039876,
+          1.4376959800720215,
+          1.3622612953186035
+        ],
+        "median_tflops": 95.5966736897428,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      },
+      {
+        "mode": "tf32_fp32_accumulate",
+        "size": 4096,
+        "milliseconds": [
+          2.8387838999430337,
+          2.70034122467041,
+          2.9358078638712564,
+          2.8136107126871743,
+          2.8183892567952475
+        ],
+        "median_tflops": 48.765071446617696,
+        "constant_matrix_check_passed": true,
+        "output_sha256": "311b81306a619bfd1b775f44392e2a784f54b85888fed51a135122ed40c2bcdc"
+      }
+    ]
+  }
+]

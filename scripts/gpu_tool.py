@@ -371,12 +371,16 @@ def remove(args):
 
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] in ('p2p-prepare-source', 'p2p-patch-libcuda', 'p2p-run'):
+        return subprocess.call([sys.executable, str(ROOT / 'scripts/gpu_p2p.py'), *sys.argv[1:]])
     if len(sys.argv) > 1 and sys.argv[1] in ('inventory', 'bench', 'compare'):
         return subprocess.call([sys.executable, str(ROOT / 'scripts/gpu_test.py'), *sys.argv[1:]])
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
     for name in ('inventory', 'bench', 'compare'):
         sub.add_parser(name, help='Run the benchmark helper subcommand (append --help for options).', add_help=False)
+    for name in ('p2p-prepare-source', 'p2p-patch-libcuda', 'p2p-run'):
+        sub.add_parser(name, help='Qualified Ampere P2P preparation/launch (append --help for options); no boot installer.', add_help=False)
     p = sub.add_parser('unlock-plan', help='Read-only qualification of explicit PCI targets')
     p.add_argument('--targets', required=True)
     p.add_argument('--output', type=Path, required=True)
